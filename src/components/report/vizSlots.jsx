@@ -21,10 +21,6 @@ export function Q1DeclineChart() {
   return <Slot name="Q1DeclineChart" kind="Chart — decline curves" />;
 }
 
-export function Q2EfficiencyChart() {
-  return <Slot name="Q2EfficiencyChart" kind="Chart — efficiency by site" />;
-}
-
 export function Q3HseRiskChart() {
   return <Slot name="Q3HseRiskChart" kind="Chart — HSE risk drivers" />;
 }

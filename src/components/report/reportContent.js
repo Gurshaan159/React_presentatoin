@@ -1,10 +1,10 @@
 import {
   Q1DeclineChart,
-  Q2EfficiencyChart,
   Q3HseRiskChart,
   Q4DecommissionTable,
   Q5InvestmentTable,
 } from './vizSlots.jsx';
+import Q2EfficiencyChart from './Q2EfficiencyChart.jsx';
 
 /** Article header + byline. */
 export const article = {

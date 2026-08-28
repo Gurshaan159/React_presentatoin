@@ -1,0 +1,253 @@
+.chart {
+  --label-w: 9.5rem;
+  --value-w: 6rem;
+  font-family: var(--est-font-sans);
+  color: var(--est-charcoal);
+}
+
+.title {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--est-charcoal);
+}
+.unit {
+  display: block;
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--est-mute);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.78rem;
+  color: var(--est-slate);
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.swatchBar {
+  width: 15px;
+  height: 10px;
+  border-radius: 0 2px 2px 0;
+  background: var(--est-blue);
+}
+.swatchTick {
+  width: 2px;
+  height: 13px;
+  background: var(--est-charcoal);
+}
+
+/* ---------- plot ---------- */
+.plot {
+  position: relative;
+}
+
+.gridArea {
+  position: absolute;
+  top: 0;
+  bottom: 1.5rem; /* leave the axis row clear */
+  left: var(--label-w);
+  right: var(--value-w);
+  pointer-events: none;
+}
+.gridLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--est-gray-border);
+}
+
+/* No z-index here: an explicit z-index on every row would each open its own
+   stacking context and a later row would paint over an earlier row's tooltip.
+   Only the hovered/focused row (.rowOn) is raised. No transform/opacity/filter
+   on rows either, for the same reason. */
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--label-w) minmax(0, 1fr) var(--value-w);
+  align-items: center;
+  column-gap: 0;
+  padding: 0.32rem 0;
+}
+.row:focus-visible {
+  outline: 2px solid var(--est-blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.rowOn {
+  z-index: 20;
+}
+.rowOn .bar {
+  background: var(--est-blue-mid, #023a73);
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  padding-right: 0.75rem;
+  line-height: 1.25;
+}
+.site {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.sub {
+  font-size: 0.72rem;
+  color: var(--est-mute);
+}
+
+.track {
+  position: relative;
+  height: 1.4rem;
+}
+.bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  min-width: 2px;
+  border-radius: 0 4px 4px 0;
+  background: var(--est-blue);
+}
+.tick {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--est-charcoal);
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-left: 0.6rem;
+  text-align: right;
+  line-height: 1.2;
+}
+.valuePe {
+  font-family: var(--est-font-mono);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.valueRaw {
+  font-size: 0.68rem;
+  color: var(--est-mute);
+  white-space: nowrap;
+}
+
+/* ---------- axis ---------- */
+.axis {
+  position: relative;
+  height: 1.5rem;
+  margin-left: var(--label-w);
+  margin-right: var(--value-w);
+}
+.axisTick {
+  position: absolute;
+  top: 0.35rem;
+  font-family: var(--est-font-mono);
+  font-size: 0.7rem;
+  color: var(--est-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- tooltip ---------- */
+.tip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% - 0.2rem);
+  left: var(--label-w);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: max-content;
+  max-width: min(20rem, 80vw);
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  background: var(--est-charcoal); /* opaque token — nothing shows through */
+  color: #fff;
+  font-size: 0.74rem;
+  line-height: 1.45;
+  pointer-events: none;
+}
+.tipUp {
+  top: auto;
+  bottom: calc(100% - 0.2rem);
+}
+.tip strong {
+  margin-bottom: 2px;
+  font-size: 0.76rem;
+}
+
+/* ---------- data table ---------- */
+.tableWrap {
+  margin-top: 1.25rem;
+  font-size: 0.82rem;
+}
+.tableWrap summary {
+  cursor: pointer;
+  color: var(--est-blue);
+  font-weight: 600;
+}
+.tableScroll {
+  overflow-x: auto;
+  margin-top: 0.75rem;
+}
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 32rem;
+}
+.table th,
+.table td {
+  padding: 0.4rem 0.6rem;
+  text-align: right;
+  border-bottom: 1px solid var(--est-gray-border);
+  white-space: nowrap;
+}
+.table thead th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--est-mute);
+  border-bottom-color: var(--est-charcoal);
+}
+.table th[scope='row'] {
+  text-align: left;
+  font-weight: 600;
+}
+.table td:first-child,
+.table th:first-child {
+  text-align: left;
+}
+
+@media (max-width: 34rem) {
+  .chart {
+    --label-w: 6.5rem;
+    --value-w: 4.25rem;
+  }
+  .valueRaw {
+    display: none;
+  }
+  .tip {
+    left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart * {
+    transition: none !important;
+  }
+}
