@@ -1,10 +1,12 @@
+import AuthorsSection from './AuthorsSection.jsx';
 import styles from './Report.module.css';
 
 /**
  * Article masthead: magazine-style kicker, headline (the central question),
- * dek, and an understated byline row. Scrolls with the page.
+ * dek, then the team block, then an understated byline row. Scrolls with the
+ * page.
  */
-function ArticleHeader({ article }) {
+function ArticleHeader({ article, team }) {
   const { kicker, headline, dek, byline, hero } = article;
 
   return (
@@ -16,6 +18,8 @@ function ArticleHeader({ article }) {
 
       <h1 className={styles.headline}>{headline}</h1>
       <p className={styles.dek}>{dek}</p>
+
+      {team ? <AuthorsSection authors={team} /> : null}
 
       <p className={styles.byline}>
         <span>By {byline.authors}</span>

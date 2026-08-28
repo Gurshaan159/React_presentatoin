@@ -1,7 +1,7 @@
-import { Q3HseRiskChart } from './vizSlots.jsx';
 import Q1DeclineChart from './Q1DeclineChart.jsx';
 import Q2EfficiencyChart from './Q2EfficiencyChart.jsx';
 import Q4EconomicsChart from './Q4EconomicsChart.jsx';
+import Map from '../../Map.jsx';
 import heroImage from '../../assets/exploration-and-drilling.jpg';
 import hseImage from '../../assets/hse-rig-incident.jpg';
 
@@ -31,8 +31,8 @@ export const lede = [
 ];
 
 /**
- * The five article sections. `Visual` is the component slot for that section's
- * chart or table — a marked placeholder in vizSlots.jsx until it is built.
+ * The five article sections. `Visual` is the section's chart / table / map
+ * component (each reads its own committed data file under src/Data).
  * `railLabel` is the short title shown in the "In this piece" side rail.
  */
 export const questions = [
@@ -70,7 +70,8 @@ export const questions = [
     id: 'q3',
     number: '03',
     railLabel: 'The safety record',
-    // FINDING: HSE severity concentrated in the same S05 wells + W0001; correlates with high pressure, vibration, low sensor reliability.
+    // FINDING: HSE incidents concentrate at S05 Wolfcamp North (66 of 145) and W0001 at S04;
+    // S03 Midland Central, the investment target, is nearly clean (2).
     subhead: 'The safety problem and the production are the same wells',
     image: {
       src: hseImage,
@@ -80,9 +81,9 @@ export const questions = [
       caption: 'A rig fire and partial collapse. Catastrophic HSE events are rare, but they are the tail risk the site screen exists to catch before it gets there.',
     },
     leadIn: 'Which sites carry the safety risk, and which operational signals move with it.',
-    Visual: Q3HseRiskChart,
+    Visual: Map,
     caption:
-      'Cumulative HSE incident severity by well against wellhead pressure and sensor reliability. The high-severity cluster is the high-pressure Wolfcamp completions at S05.',
+      'The eight Estacado sites across the Permian Basin, coloured by HSE risk band. Click a site for its incident record, root causes, and per-well production.',
     analysis: [
       'The wells generating the production are the wells generating the incidents. W0037, W0010, W0017 and W0019 at Wolfcamp North each log 11–19 recorded incidents — uncontrolled releases, an H2S hospitalization, repeated flare-permit breaches — with W0001 at Odessa Yard a second outlier: 14 incidents against almost no output.',
       'Severity tracks with high wellhead pressure (~7,300 psi vs. ~6,500 elsewhere), equipment vibration, and weak monitoring — an integrity-and-instrumentation problem, not a crew problem, which means capital can fix it.',
@@ -175,13 +176,14 @@ export const verdict = {
 };
 
 /**
- * The team behind the analysis. `initials` is optional — the card derives them
- * from `name` when omitted. Replace the placeholder names.
+ * The team behind the analysis — shown in the masthead between the dek and the
+ * byline. Per person: `image` (optional imported asset / URL for a photo;
+ * without it the card shows an initials monogram), `initials` (optional, else
+ * derived from `name`), `role`, `focus`. Replace the placeholder names.
  */
 export const authors = {
   heading: 'The team',
-  blurb:
-    'Four of us built this — one lead per question, plus the data cleaning and joins that tie them together.',
+  blurb: 'One lead per question, plus the data cleaning and joins that tie them together.',
   people: [
     {
       name: 'Your Name',

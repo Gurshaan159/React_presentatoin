@@ -6,7 +6,6 @@ import Lede from './Lede.jsx';
 import QuickNav from './QuickNav.jsx';
 import ArticleSection from './ArticleSection.jsx';
 import Conclusion from './Conclusion.jsx';
-import AuthorsSection from './AuthorsSection.jsx';
 import ReportFooter from './ReportFooter.jsx';
 import styles from './Report.module.css';
 
@@ -73,7 +72,7 @@ function ReportView() {
         <QuickNav items={NAV_ITEMS} activeId={activeId} onJump={handleJump} />
 
         <article className={styles.article}>
-          <ArticleHeader article={article} />
+          <ArticleHeader article={article} team={authors} />
           <Lede paragraphs={lede} />
 
           {questions.map((q) => (
@@ -92,7 +91,6 @@ function ReportView() {
           ))}
 
           <Conclusion id={VERDICT_ID} verdict={verdict} />
-          <AuthorsSection authors={authors} />
           <ReportFooter meta={article.byline} />
 
           <button type="button" className={styles.backToTop} onClick={handleToTop}>

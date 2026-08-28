@@ -376,90 +376,105 @@
   font-weight: 600;
 }
 
-/* ---------- Authors ---------- */
-.authors {
-  margin-top: clamp(3.5rem, 8vw, 5.5rem);
-  padding-top: clamp(2rem, 5vw, 3rem);
-  border-top: 2px solid var(--est-blue);
+/* ---------- The team (in the masthead, between dek and byline) ---------- */
+.team {
+  margin: 1.9rem 0 0;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--est-gray-border);
   scroll-margin-top: 4.5rem;
 }
-.authorsKicker {
-  margin: 0 0 0.6rem;
+.teamHeading {
+  margin: 0;
   font-family: var(--est-font-mono);
   font-size: var(--est-type-marker, 0.8rem);
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--est-blue);
 }
-.authorsHeading {
-  margin: 0;
-  font-family: var(--est-font-serif);
-  font-weight: 700;
-  font-size: var(--est-type-subhead);
-  letter-spacing: -0.01em;
-  color: var(--est-charcoal);
-}
-.authorsBlurb {
-  margin: 0.7rem 0 0;
+.teamBlurb {
+  margin: 0.5rem 0 0;
   max-width: 60ch;
-  font-size: 0.98rem;
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.55;
   color: var(--est-slate);
 }
-.authorGrid {
+.teamGrid {
   list-style: none;
-  margin: 1.75rem 0 0;
+  margin: 1.15rem 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--est-gray-border);
-  border: 1px solid var(--est-gray-border);
-  border-radius: 2px;
-  overflow: hidden;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.85rem, 2vw, 1.6rem);
 }
-@media (max-width: 34rem) {
-  .authorGrid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-.authorCard {
-  background: var(--est-white);
-  padding: 1.25rem 1.1rem 1.35rem;
+.teamCard {
   display: flex;
   flex-direction: column;
-  gap: 0.32rem;
 }
-.authorAvatar {
-  width: 2.4rem;
-  height: 2.4rem;
+.teamPhoto {
+  aspect-ratio: 1 / 1;
+  width: 100%;
   margin-bottom: 0.55rem;
-  border-radius: 50%;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--est-blue-wash);
   display: grid;
   place-items: center;
-  background: var(--est-blue-wash);
-  color: var(--est-blue);
+}
+.teamText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  min-width: 0;
+}
+
+/* Narrow screens: one column, photo beside the text so it stays compact. */
+@media (max-width: 48rem) {
+  .teamGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.15rem;
+  }
+  .teamCard {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .teamPhoto {
+    width: 5rem;
+    aspect-ratio: 1 / 1;
+    flex: none;
+    margin-bottom: 0;
+  }
+}
+.teamPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.teamMono {
   font-family: var(--est-font-mono);
   font-weight: 600;
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
+  font-size: clamp(2rem, 7vw, 3.1rem);
+  letter-spacing: 0.04em;
+  color: var(--est-blue);
+  opacity: 0.75;
 }
-.authorName {
+.teamName {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--est-charcoal);
 }
-.authorRole {
+.teamRole {
   font-family: var(--est-font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
+  font-size: 0.65rem;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--est-blue);
 }
-.authorFocus {
-  margin-top: 0.2rem;
-  font-size: 0.86rem;
+.teamFocus {
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
   line-height: 1.5;
   color: var(--est-slate);
 }
