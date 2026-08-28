@@ -1,0 +1,234 @@
+import { useRef, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import wellAveragesCsv from './well_averages.csv?raw';
+
+// Per-well average attributes, grouped by site code:
+//   { S01: [{ well, days, oil, gas, water, boe }, ...], ... }
+const WELL_AVERAGES_BY_SITE = wellAveragesCsv
+  .trim()
+  .split(/\r?\n/)
+  .slice(1)
+  .reduce((acc, line) => {
+    const [site, well, days, oil, gas, water, boe] = line.split(',');
+    (acc[site] ??= []).push({
+      well, days: +days, oil: +oil, gas: +gas, water: +water, boe: +boe,
+    });
+    return acc;
+  }, {});
+
+// Risk band -> colour. Matched on the leading phrase of `risk_band`.
+const RISK_COLORS = [
+  { key: 'Critical risk', color: '#b00020', label: 'Critical risk' },
+  { key: 'Moderate risk', color: '#f4b400', label: 'Moderate risk' },
+  { key: 'Low risk', color: '#0f9d58', label: 'Low risk' },
+  { key: 'Minimal risk', color: '#1a73e8', label: 'Minimal risk' }
+];
+
+function riskColor(band) {
+  const hit = RISK_COLORS.find((r) => band.startsWith(r.key));
+  return hit ? hit.color : '#5f6368';
+}
+
+function diamondIcon(color, active) {
+  return L.divIcon({
+    className: '',
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+    html: `<div style="width:20px;height:20px;transform:rotate(45deg);
+      background:${color};border:${active ? 3 : 2}px solid #fff;
+      box-shadow:0 0 3px rgba(0,0,0,0.5);"></div>`,
+  });
+}
+
+const SITES = [
+  { site_code: 'S05', site_name: 'Wolfcamp North', business_unit: 'Permian North', latitude: 31.161784, longitude: -101.500626, n_incidents: 66, HSE_index: 0.0, risk_band: 'Critical risk - frequent and severe incidents; immediate intervention required', OilBarrelsPerDay: 566, last_incident_date: '2026-08-26' },
+  { site_code: 'S04', site_name: 'Odessa Yard', business_unit: 'Permian Central', latitude: 30.292934, longitude: -101.121177, n_incidents: 17, HSE_index: 59.6, risk_band: 'Moderate risk - frequent and severe incidents; immediate intervention required', OilBarrelsPerDay: 34, last_incident_date: '2026-08-13' },
+  { site_code: 'S06', site_name: 'Delaware Flats', business_unit: 'Permian North', latitude: 30.232935, longitude:-100.872216, n_incidents:16, HSE_index:61.5, risk_band:'Moderate risk - elevated incident rate with serious outcomes; priority action needed', OilBarrelsPerDay:59, last_incident_date: '2026-08-02' },
+  { site_code: 'S02', site_name: 'Big Spring Complex', business_unit: 'Permian West', latitude: 31.37119, longitude: -101.76322, n_incidents: 12, HSE_index: 69.4, risk_band: 'Moderate risk - elevated incident rate with serious outcomes; priority action needed', OilBarrelsPerDay: 127, last_incident_date: '2026-08-06'},
+  { site_code: 'S08', site_name:'Alamo Sunset', business_unit:'Permian East', latitude:30.49092, longitude:-102.759829, n_incidents:10, HSE_index:73.9, risk_band:'Moderate risk - some serious incidents; targeted improvement warranted', OilBarrelsPerDay:274, last_incident_date: '2026-07-05' },
+  { site_code: 'S07', site_name:'Andrews Legacy', business_unit:'Permian East', latitude:31.531908, longitude:-102.690386, n_incidents:14, HSE_index:65.3, risk_band:'Moderate risk - infrequent, mostly minor incidents; maintain controls', OilBarrelsPerDay:177, last_incident_date: '2026-08-23' },
+  { site_code: 'S01', site_name: 'Estacado Ridge', business_unit: 'Permian West', latitude: 30.799264, longitude: -100.918286, n_incidents: 8, HSE_index: 81.2, risk_band: 'Low risk - infrequent, mostly minor incidents; maintain controls', OilBarrelsPerDay: 263, last_incident_date: '2026-04-21' },
+  { site_code:'S03', site_name:'Midland Central', business_unit:'Permian Central', latitude:30.44963, longitude:-102.825613, n_incidents: 2, HSE_index: 100.0, risk_band:'Minimal risk - very few incidents, no serious outcomes; strong performer', OilBarrelsPerDay:474, last_incident_date: '2026-04-06'}
+];
+
+export default function Map() {
+  const [selected, setSelected] = useState(null);
+  const [production, setProduction] = useState(null); // { site, wells } | null
+  const mapRef = useRef(null);
+
+  const openProduction = (site) => {
+    const wells = WELL_AVERAGES_BY_SITE[site.site_code];
+    if (!wells) return;
+    setProduction({ site: site.site_code, wells });
+  };
+
+  return (
+    <div style={styles.wrap}>
+      <MapContainer ref={mapRef} center={[30.9, -101.7]} zoom={8} style={{ height: '100%', width: '100%' }}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {SITES.map((site) => (
+          <Marker
+            key={site.site_code}
+            position={[site.latitude, site.longitude]}
+            icon={diamondIcon(riskColor(site.risk_band), selected?.site_code === site.site_code)}
+            eventHandlers={{ click: () => setSelected(site) }}
+          >
+            <Tooltip direction="top" offset={[0, -10]}>
+              {site.site_code} &middot; {site.site_name}
+            </Tooltip>
+          </Marker>
+        ))}
+      </MapContainer>
+
+      <div style={styles.legend}>
+        <div style={styles.legendTitle}>Risk band</div>
+        {RISK_COLORS.map((r) => (
+          <div key={r.key} style={styles.legendRow}>
+            <span style={{ ...styles.legendSwatch, background: r.color }} />
+            {r.label}
+          </div>
+        ))}
+      </div>
+
+      {selected && (
+        <div style={styles.card}>
+          <div style={{ ...styles.cardBar, background: riskColor(selected.risk_band) }} />
+          <button style={styles.close} onClick={() => setSelected(null)} aria-label="Close">
+            &times;
+          </button>
+          <div style={styles.cardBody}>
+            <div style={styles.eyebrow}>
+              {selected.site_code} &middot; {selected.business_unit}
+            </div>
+            <h2 style={styles.title}>{selected.site_name}</h2>
+
+            <div style={styles.stats}>
+              <div>
+                <div style={styles.statValue}>{selected.n_incidents}</div>
+                <div style={styles.statLabel}>Incidents</div>
+              </div>
+              <div>
+                <div style={styles.statValue}>{selected.HSE_index.toFixed(1)}</div>
+                <div style={styles.statLabel}>HSE index</div>
+              </div>
+              <div>
+                <div style={styles.statValue}>{selected.OilBarrelsPerDay}</div>
+                <div style={styles.statLabel}>Oil Barrels Per Day</div>
+              </div>
+              <div>
+                <div style={styles.statValue}>{selected.last_incident_date}</div>
+                <div style={styles.statLabel}>Last Incident</div>
+              </div>
+              <div>
+                {WELL_AVERAGES_BY_SITE[selected.site_code] ? (
+                  <button style={styles.siteLink} onClick={() => openProduction(selected)}>
+                    {selected.site_code} &rsaquo;
+                  </button>
+                ) : (
+                  <div style={styles.statValue}>{selected.site_code}</div>
+                )}
+                <div style={styles.statLabel}>Production data</div>
+              </div>
+            </div>
+
+            <div style={{ ...styles.riskPill, background: riskColor(selected.risk_band) }}>
+              {selected.risk_band}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {production && (
+        <div style={{ ...styles.card, ...styles.prodCard }}>
+          <div style={{ ...styles.cardBar, background: '#1a73e8' }} />
+          <button style={styles.close} onClick={() => setProduction(null)} aria-label="Close">
+            &times;
+          </button>
+          <div style={styles.prodBody}>
+            <div style={styles.eyebrow}>{`Well averages · ${production.site}`}</div>
+            <div style={styles.tableWrap}>
+              <table style={styles.table}>
+                <thead>
+                  <tr>
+                    {['Well ID', 'Days', 'Avg Oil (bbl)', 'Avg Gas (mcf)', 'Avg Water (bbl)', 'Avg BOE (bbl)'].map((h) => (
+                      <th key={h} style={styles.th}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {production.wells.map((w) => (
+                    <tr key={w.well}>
+                      <td style={styles.td}>{w.well}</td>
+                      <td style={styles.td}>{w.days}</td>
+                      <td style={styles.td}>{w.oil}</td>
+                      <td style={styles.td}>{w.gas}</td>
+                      <td style={styles.td}>{w.water}</td>
+                      <td style={styles.td}>{w.boe}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const styles = {
+  wrap: { position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' },
+  legend: {
+    position: 'absolute', right: 24, top: 24, zIndex: 1000, background: '#fff',
+    padding: '12px 16px', boxShadow: '0 1px 6px rgba(0,0,0,0.2)',
+    fontFamily: 'system-ui, sans-serif', fontSize: 13, color: '#333',
+  },
+  siteLink: {
+    background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+    font: 'inherit', fontSize: 18, fontWeight: 600, color: '#1a73e8',
+    textDecoration: 'underline',
+  },
+  legendTitle: { fontWeight: 600, marginBottom: 8 },
+  legendRow: { display: 'flex', alignItems: 'center', gap: 8, padding: '2px 0' },
+  legendSwatch: { width: 12, height: 12, transform: 'rotate(45deg)', display: 'inline-block' },
+  card: {
+    position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+    width: 620, maxWidth: 'calc(100vw - 40px)', background: '#fff', zIndex: 1000,
+    boxShadow: '0 10px 40px rgba(0,0,0,0.25)', fontFamily: 'system-ui, sans-serif',
+  },
+  cardBar: { height: 6 },
+  close: {
+    position: 'absolute', top: -20, right: -20, width: 56, height: 56, borderRadius: '50%',
+    border: 'none', background: '#000', color: '#fff', fontSize: 26, cursor: 'pointer', zIndex: 1,
+  },
+  cardBody: { padding: 32 },
+  eyebrow: {
+    textTransform: 'uppercase', letterSpacing: 1, fontSize: 12, color: '#5f6368', fontWeight: 600,
+  },
+  title: { color: '#1a1a1a', fontWeight: 500, fontSize: 28, margin: '6px 0 20px' },
+  stats: {
+    display: 'flex', gap: 24, borderTop: '1px solid #eee', borderBottom: '1px solid #eee',
+    padding: '16px 0',
+  },
+  statValue: { fontSize: 18, fontWeight: 600, color: '#1a1a1a' },
+  statLabel: {
+    fontSize: 12, color: '#5f6368', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: 2,
+  },
+  riskPill: {
+    marginTop: 20, padding: '10px 14px', borderRadius: 4, color: '#fff', fontSize: 14, lineHeight: 1.4,
+  },
+  prodCard: { width: 'min(1100px, 95vw)', maxWidth: '95vw' },
+  prodBody: { padding: 24 },
+  tableWrap: { marginTop: 12, maxHeight: '78vh', overflow: 'auto', border: '1px solid #eee' },
+  table: { borderCollapse: 'collapse', fontSize: 12, width: '100%' },
+  th: {
+    position: 'sticky', top: 0, background: '#f5f5f5', textAlign: 'left',
+    padding: '6px 10px', borderBottom: '1px solid #ddd', whiteSpace: 'nowrap',
+  },
+  td: { padding: '4px 10px', borderBottom: '1px solid #f0f0f0', whiteSpace: 'nowrap' },
+};
