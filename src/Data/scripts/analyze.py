@@ -191,6 +191,7 @@ merged_6mo['BOE'] = merged_6mo['Allocation Oil Volume'] + (merged_6mo['Allocatio
 boe_by_well_6mo = merged_6mo.groupby('Well ID')['BOE'].sum().reset_index()
 top5_wells = boe_by_well_6mo.sort_values('BOE', ascending=False).head(5)
 top_ids = top5_wells['Well ID'].tolist()
+trailing_6mo_boe_lookup = top5_wells.set_index('Well ID')['BOE'].to_dict()
 
 # Pull FULL HISTORY for those wells
 top_prod_full = merged[merged['Well ID'].isin(top_ids)].copy()
@@ -358,6 +359,7 @@ for wid in top_ids:
     wells_out.append({
         'wellId': wid,
         'site': site_lookup.get(wid),
+        'trailing6MonthBoe': round(float(trailing_6mo_boe_lookup[wid]), 0),
         'fit': {'qi': float(qi), 'Di': float(Di), 'b': float(b),
                 'startDate': pd.Timestamp(t0_date).date().isoformat()},
         'currentRateBoePerDay': round(float(fore['Rate_BOE_per_day'].iloc[0]), 1),

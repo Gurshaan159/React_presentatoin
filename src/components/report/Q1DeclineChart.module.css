@@ -165,6 +165,13 @@
   width: 100%;
   min-width: 34rem;
 }
+.table caption {
+  padding: 0 0 0.55rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--est-charcoal);
+}
 .table th,
 .table td {
   padding: 0.4rem 0.6rem;

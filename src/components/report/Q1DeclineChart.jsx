@@ -242,6 +242,32 @@ function Q1DeclineChart() {
         ) : null}
       </div>
 
+      <div className={styles.tableScroll}>
+        <table className={styles.table}>
+          <caption>Top five wells by trailing six-month BOE</caption>
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Well</th>
+              <th scope="col">Site</th>
+              <th scope="col">Trailing 6-month BOE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...WELLS]
+              .sort((a, b) => b.trailing6MonthBoe - a.trailing6MonthBoe)
+              .map((w, index) => (
+                <tr key={w.wellId}>
+                  <td>{index + 1}</td>
+                  <th scope="row">{w.wellId}</th>
+                  <td>{w.site ?? '—'}</td>
+                  <td>{Math.round(w.trailing6MonthBoe).toLocaleString('en-US')}</td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+
       <details className={styles.tableWrap}>
         <summary>Show data table</summary>
         <div className={styles.tableScroll}>
