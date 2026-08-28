@@ -32,6 +32,28 @@ const HSE_ENRICHED = {
   S03: { manager: 'Ravi Patel', serious_events: 0, serious_root_cause: '', site_root_cause: 'Vehicle incident 2x', top_well: 'W0006', top_well_incidents: 1, top_well_root_cause: 'Vehicle incident 1x' },
 };
 
+// Leading indicator: equipment-stress band + worst well per site, from the
+// equipment stress model (equipment_stress_by_site.csv). Forward-looking — it
+// flags where the next incident is likely, independent of the incident count.
+const EQUIP_STRESS = {
+  S05: { band: 'Critical', worst_well: 'W0017' },
+  S04: { band: 'Normal', worst_well: 'W0001' },
+  S06: { band: 'Elevated', worst_well: 'W0024' },
+  S07: { band: 'High', worst_well: 'W0003' },
+  S02: { band: 'Elevated', worst_well: 'W0009' },
+  S08: { band: 'Critical', worst_well: 'W0023' },
+  S01: { band: 'Normal', worst_well: 'W0030' },
+  S03: { band: 'High', worst_well: 'W0014' },
+};
+
+// Equipment-stress band -> colour. Only High / Critical get emphasis.
+const STRESS_COLORS = {
+  Critical: '#b00020',
+  High: '#e8710a',
+  Elevated: '#5f6368',
+  Normal: '#5f6368',
+};
+
 // Risk band -> colour. Matched on the leading phrase of `risk_band`.
 const RISK_COLORS = [
   { key: 'Critical risk', color: '#b00020', label: 'Critical risk' },
@@ -166,6 +188,28 @@ export default function Map() {
                     <span style={styles.detailLabel}>Manager</span>
                     <span style={styles.detailValue}>{e.manager}</span>
                   </div>
+                  {EQUIP_STRESS[selected.site_code] && (() => {
+                    const s = EQUIP_STRESS[selected.site_code];
+                    const hot = s.band === 'Critical' || s.band === 'High';
+                    return (
+                      <div style={styles.detailRow}>
+                        <span style={styles.detailLabel}>Equip. stress</span>
+                        <span style={styles.detailValue}>
+                          <span style={{ ...styles.stressBadge, background: STRESS_COLORS[s.band], opacity: hot ? 1 : 0.55 }}>
+                            {s.band}
+                          </span>
+                          {' '}leading indicator &mdash; highest-stress well{' '}
+                          {WELL_AVERAGES_BY_SITE[selected.site_code] ? (
+                            <button style={styles.wellLink} onClick={() => openProduction(selected)}>
+                              {s.worst_well} &rsaquo;
+                            </button>
+                          ) : (
+                            s.worst_well
+                          )}
+                        </span>
+                      </div>
+                    );
+                  })()}
                   <div style={styles.detailRow}>
                     <span style={styles.detailLabel}>Severity</span>
                     <span style={styles.detailValue}>
@@ -180,7 +224,7 @@ export default function Map() {
                     <span style={styles.detailValue}>{withRemainder(e.site_root_cause, selected.n_incidents)}</span>
                   </div>
                   <div style={styles.detailRow}>
-                    <span style={styles.detailLabel}>Top well</span>
+                    <span style={styles.detailLabel}>Most incidents</span>
                     <span style={styles.detailValue}>
                       &#9733; {e.top_well} &mdash; {e.top_well_incidents} incidents ({withRemainder(e.top_well_root_cause, e.top_well_incidents)})
                     </span>
@@ -212,10 +256,12 @@ export default function Map() {
                 <tbody>
                   {production.wells.map((w) => {
                     const isTop = HSE_ENRICHED[production.site]?.top_well === w.well;
+                    const isWorst = EQUIP_STRESS[production.site]?.worst_well === w.well;
                     return (
-                    <tr key={w.well}>
-                      <td style={{ ...styles.td, fontWeight: isTop ? 700 : 400 }}>
+                    <tr key={w.well} style={isWorst ? styles.worstRow : undefined}>
+                      <td style={{ ...styles.td, fontWeight: isTop || isWorst ? 700 : 400 }}>
                         {isTop && <span title="Highest-incident well" style={styles.star}>&#9733; </span>}
+                        {isWorst && <span title="Highest equipment stress" style={styles.wrench}>&#9888; </span>}
                         {w.well}
                       </td>
                       <td style={styles.td}>{w.oil}</td>
@@ -247,20 +293,32 @@ const styles = {
     font: 'inherit', fontSize: 18, fontWeight: 600, color: '#1a73e8',
     textDecoration: 'underline',
   },
+  wellLink: {
+    background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+    font: 'inherit', fontWeight: 700, color: '#1a73e8', textDecoration: 'underline',
+  },
+  stressBadge: {
+    display: 'inline-block', padding: '1px 6px', borderRadius: 3, color: '#fff',
+    fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 0.4,
+  },
+  worstRow: { background: '#fff4ec' },
+  wrench: { color: '#e8710a' },
   legendTitle: { fontWeight: 600, marginBottom: 8 },
   legendRow: { display: 'flex', alignItems: 'center', gap: 8, padding: '2px 0' },
   legendSwatch: { width: 12, height: 12, transform: 'rotate(45deg)', display: 'inline-block' },
   card: {
     position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-    width: 620, maxWidth: 'calc(100vw - 40px)', background: '#fff', zIndex: 1000,
+    width: 620, maxWidth: 'calc(100vw - 40px)', background: '#fff', zIndex: 1100,
     boxShadow: '0 10px 40px rgba(0,0,0,0.25)', fontFamily: 'system-ui, sans-serif',
+    maxHeight: 'calc(100vh - 40px)', display: 'flex', flexDirection: 'column', overflow: 'hidden',
   },
   cardBar: { height: 6 },
   close: {
-    position: 'absolute', top: -20, right: -20, width: 56, height: 56, borderRadius: '50%',
-    border: 'none', background: '#000', color: '#fff', fontSize: 26, cursor: 'pointer', zIndex: 1,
+    position: 'absolute', top: 10, right: 10, width: 36, height: 36, borderRadius: '50%',
+    border: 'none', background: '#000', color: '#fff', fontSize: 20, lineHeight: '36px',
+    textAlign: 'center', padding: 0, cursor: 'pointer', zIndex: 1,
   },
-  cardBody: { padding: 32 },
+  cardBody: { padding: 32, overflow: 'auto', flex: 1, minHeight: 0, minWidth: 0 },
   eyebrow: {
     textTransform: 'uppercase', letterSpacing: 1, fontSize: 12, color: '#5f6368', fontWeight: 600,
   },
@@ -285,13 +343,13 @@ const styles = {
   detailValue: { color: '#1a1a1a', flex: 1, textAlign: 'left' },
   detailExample: { display: 'block', marginTop: 3, color: '#5f6368', fontSize: 12, textAlign: 'left' },
   star: { color: '#f4b400' },
-  prodCard: { width: 'min(1100px, 95vw)', maxWidth: '95vw' },
-  prodBody: { padding: 24 },
-  tableWrap: { marginTop: 12, maxHeight: '78vh', overflow: 'auto', border: '1px solid #eee' },
-  table: { borderCollapse: 'collapse', fontSize: 12, width: '100%' },
+  prodCard: { width: 'min(860px, 92vw)', maxWidth: '92vw' },
+  prodBody: { padding: 16, overflow: 'hidden', flex: 1, minHeight: 0, minWidth: 0, width: '100%', display: 'flex', flexDirection: 'column' },
+  tableWrap: { marginTop: 12, flex: 1, minHeight: 0, minWidth: 0, width: '100%', overflow: 'auto', border: '1px solid #eee' },
+  table: { borderCollapse: 'collapse', fontSize: 11, width: '100%' },
   th: {
     position: 'sticky', top: 0, background: '#f5f5f5', textAlign: 'left',
-    padding: '6px 10px', borderBottom: '1px solid #ddd', whiteSpace: 'nowrap',
+    padding: '3px 5px', borderBottom: '1px solid #ddd', whiteSpace: 'nowrap',
   },
-  td: { padding: '4px 10px', borderBottom: '1px solid #f0f0f0', whiteSpace: 'nowrap' },
+  td: { padding: '1px 5px', borderBottom: '1px solid #f0f0f0', whiteSpace: 'nowrap' },
 };
