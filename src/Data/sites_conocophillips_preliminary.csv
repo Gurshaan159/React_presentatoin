@@ -1,0 +1,9 @@
+SiteName,SiteID,Lat,Lon,Manager,Phone,Email,Region
+EE Site 1,S01,30.799264,-100.918286,Jane Ortiz,+1-832-302-1860,jane.ortiz@conocophillips.com,Permian West
+EE Site 2,S02,31.37119,-101.76322,Kim Vega,+1-832-470-6191,kim.vega@conocophillips.com,Permian West
+EE Site 3,S03,30.44963,-102.825613,Ravi Patel,+1-832-900-6734,ravi.patel@conocophillips.com,Permian Central
+EE Site 4,S04,30.292934,-101.121177,Alex Chen,+1-832-321-1466,alex.chen@conocophillips.com,Permian Central
+EE Site 5,S05,31.161784,-101.500626,Sam Ford,+1-832-414-5426,sam.ford@conocophillips.com,Permian North
+EE Site 6,S06,30.232935,-100.872216,Priya Rao,+1-832-658-9322,priya.rao@conocophillips.com,Permian North
+EE Site 7,S07,31.531908,-102.690386,Luis Diaz,+1-832-861-1769,luis.diaz@conocophillips.com,Permian East
+EE Site 8,S08,30.49092,-102.759829,Nina Kwan,+1-832-543-7949,nina.kwan@conocophillips.com,Permian East

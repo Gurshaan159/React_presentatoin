@@ -1,0 +1,399 @@
+.page {
+  font-family: var(--est-font-sans);
+  color: var(--est-charcoal);
+  background: var(--est-white);
+  --nav-h: 64px;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Skip link ---------- */
+.skipLink {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 20;
+  background: var(--est-white);
+  color: var(--est-blue);
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--est-radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skipLink:focus {
+  top: 0.75rem;
+}
+
+/* ---------- Top nav ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: var(--est-blue);
+  color: var(--est-white);
+}
+.navInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: var(--nav-h);
+  padding: 0.5rem clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--est-white);
+  text-decoration: none;
+}
+.wordmarkMark {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--est-white);
+  position: relative;
+  flex: none;
+}
+.wordmarkMark::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 2px;
+  background: var(--est-accent);
+}
+.wordmarkText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.wordmarkText strong {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+.wordmarkText span {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1.75rem);
+  flex-wrap: wrap;
+}
+.navLink {
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.4rem 0.15rem;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.navLink:hover,
+.navLink:focus-visible {
+  color: var(--est-white);
+  border-bottom-color: var(--est-accent);
+  outline: none;
+}
+.navLink:focus-visible {
+  outline: 2px solid var(--est-white);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  isolation: isolate;
+  scroll-margin-top: var(--nav-h);
+  background: linear-gradient(160deg, var(--est-blue) 0%, var(--est-blue-deep) 55%, var(--est-ink) 100%);
+  color: var(--est-white);
+  overflow: hidden;
+}
+.heroBackdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.heroInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(3.5rem, 9vw, 7rem) clamp(1rem, 4vw, 2.5rem);
+}
+.heroKicker {
+  margin: 0 0 1.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+.heroHeadline {
+  margin: 0;
+  font-size: clamp(2.1rem, 5.4vw, 3.75rem);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 18ch;
+}
+.heroSubhead {
+  margin: 1.5rem 0 0;
+  font-size: clamp(1rem, 1.7vw, 1.2rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 62ch;
+}
+.heroActions {
+  margin-top: 2.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.btnPrimary,
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--est-radius-md);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.btnPrimary {
+  background: var(--est-accent);
+  color: var(--est-white);
+  border: 2px solid var(--est-accent);
+}
+.btnPrimary:hover {
+  background: var(--est-accent-hover);
+  border-color: var(--est-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(214, 64, 0, 0.32);
+}
+.btnSecondary {
+  background: transparent;
+  color: var(--est-white);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--est-white);
+  transform: translateY(-1px);
+}
+.btnPrimary:focus-visible,
+.btnSecondary:focus-visible {
+  outline: 3px solid var(--est-white);
+  outline-offset: 3px;
+}
+
+/* ---------- Stat strip ---------- */
+.statStrip {
+  background: var(--est-gray-bg);
+  border-bottom: 1px solid var(--est-gray-border);
+}
+.statStripInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.25rem) clamp(1rem, 4vw, 2.5rem) 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem 2rem;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.statValue {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 800;
+  color: var(--est-blue);
+  letter-spacing: -0.01em;
+}
+.statLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--est-charcoal);
+}
+.statDetail {
+  font-size: 0.82rem;
+  color: var(--est-slate);
+}
+.statAsOf {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2.5rem) 1.25rem;
+  font-size: 0.75rem;
+  color: var(--est-slate);
+}
+
+/* ---------- Section heads ---------- */
+.sectionHead {
+  max-width: 60ch;
+}
+.sectionHead h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.4vw, 2.35rem);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--est-charcoal);
+}
+.sectionHead p {
+  margin: 0.75rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--est-slate);
+}
+
+/* ---------- Questions grid ---------- */
+.questions {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 4vw, 2.5rem);
+  scroll-margin-top: var(--nav-h);
+}
+.cardGrid {
+  list-style: none;
+  margin: 2.25rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem 1.4rem 1.35rem;
+  background: var(--est-white);
+  border: 1px solid var(--est-gray-border);
+  border-top: 3px solid var(--est-blue);
+  border-radius: var(--est-radius-md);
+  box-shadow: var(--est-shadow-card);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-top-color 0.16s ease;
+}
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--est-shadow-card-hover);
+  border-top-color: var(--est-accent);
+  outline: none;
+}
+.card:focus-visible {
+  outline: 3px solid var(--est-blue);
+  outline-offset: 2px;
+}
+.cardBadge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--est-blue);
+}
+.cardTitle {
+  margin: 0.6rem 0 0;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--est-charcoal);
+}
+.cardDesc {
+  margin: 0.55rem 0 1.2rem;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--est-slate);
+}
+.cardCta {
+  margin-top: auto;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--est-accent);
+}
+
+/* ---------- Map teaser ---------- */
+.mapTeaser {
+  background: var(--est-gray-bg);
+  border-top: 1px solid var(--est-gray-border);
+  scroll-margin-top: var(--nav-h);
+}
+.mapTeaserInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 4vw, 2.5rem);
+  display: grid;
+  gap: 2rem;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: var(--est-ink);
+  color: rgba(255, 255, 255, 0.75);
+}
+.footerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2.5rem;
+}
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  color: var(--est-white);
+}
+.footerBrand strong {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+.footerBrand span {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+.footerNote {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  max-width: 60ch;
+}
+
+@media (max-width: 640px) {
+  .navInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .navLinks {
+    gap: 0.75rem 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page * {
+    transition: none !important;
+  }
+}
