@@ -58,15 +58,17 @@ export const questions = [
     id: 'q2',
     number: '02',
     railLabel: 'The measurement',
-    // FINDING: S05 highest raw efficiency but worst IoT reliability (~77%); weighting closes gap; S04/S06 mostly idle.
+    // METRIC: BOE per *active* well (normalizes for site size), then weighted by IoT
+    // in-spec share so unverifiable volume is discounted. Wind-down sites (S04/S06) excluded.
     subhead: 'Estacado’s best-producing site is also its least-measured',
     leadIn: 'Output per well only counts if the meters behind it can be trusted.',
     Visual: Q2EfficiencyChart,
     caption:
       'BOE per active well by site, raw and weighted by IoT sensor reliability. Wolfcamp North’s lead narrows once measurement quality is priced in.',
     analysis: [
-      'Raw, Wolfcamp North leads at ~384 MBOE per active well against Midland Central’s ~316 — but S05’s sensor reliability is the portfolio’s worst (~77 percent vs. 89–91 percent), so much of its reported volume is interpolated, not observed. Weighted for that, the gap closes to about four percent and Midland Central is the more dependable performer.',
-      'Odessa Yard and Delaware Flats run 20–40 percent active, paying fixed cost against almost no production.',
+      'We score a site on BOE per active well, not total output. Total output only reflects how many wells a site has, so dividing by the active amount of wells allows us to really see which sites are efficient producers with the active wells that they have.',
+      'That figure leans heavily on sensor data. When a site’s wellhead sensors drift out of spec, its volume is estimated rather than measured, so a strong number can just mean bad instruments. By weighting each site on the share of its readings that are in-spec, we filter down to the barrels we can actually verify and get an efficiency score that holds up.',
+      'Odessa Yard and Delaware Flats sit at the bottom of the chart, but its mainly because most of their wells are shut in; with their only wells not being great performers.',
     ],
   },
   {
