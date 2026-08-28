@@ -686,6 +686,31 @@ well_df["Well_Score"] = (
 best_5 = well_df.nlargest(5, "Well_Score")
 worst_5 = well_df.nsmallest(5, "Well_Score")
 
+# ------------------------------------------------------------
+# COST-TO-BOE RATIO
+# Operating dollars per barrel over the 5-year forecast window
+# (mean monthly cost x 60 months / forecast BOE). This is the slope from
+# the origin to each point on the BOE-vs-cost scatter.
+# ------------------------------------------------------------
+well_df["Cost_Per_Forecast_BOE"] = (
+    well_df["Avg_Operating_Cost"] * 60.0 / well_df["Forecast_5yr_BOE"]
+)
+
+_ratio_ranked = (
+    well_df.dropna(subset=["Cost_Per_Forecast_BOE"])
+    .sort_values("Cost_Per_Forecast_BOE")
+)
+best_ratio_ids = set(_ratio_ranked.head(5)["Well ID"])   # cheapest $/BOE
+worst_ratio_ids = set(_ratio_ranked.tail(5)["Well ID"])  # dearest $/BOE
+
+
+def _ratio_group(wid):
+    if wid in best_ratio_ids:
+        return "best"
+    if wid in worst_ratio_ids:
+        return "worst"
+    return None
+
 
 # ------------------------------------------------------------
 # EXPORT JSON FOR <Q4EconomicsChart />
@@ -723,6 +748,11 @@ for _, r in ranked.iterrows():
             None if pd.isna(r["Well_Score"]) else round(float(r["Well_Score"]), 4)
         ),
         "recommendation": _reco(r["Well ID"]),
+        "costPerForecastBoe": (
+            None if pd.isna(r["Cost_Per_Forecast_BOE"])
+            else round(float(r["Cost_Per_Forecast_BOE"]), 2)
+        ),
+        "ratioGroup": _ratio_group(r["Well ID"]),  # "best" | "worst" | None
     })
 
 payload = {
@@ -730,10 +760,14 @@ payload = {
     "method": (
         "Per-well 5-year hyperbolic-forecast BOE and mean operating cost, each "
         "min-max normalized (production up = better, cost down = better), combined "
-        "50/50 into Well_Score. Bottom 5 flagged for decommission/sale."
+        "50/50 into Well_Score. Bottom 5 flagged for decommission/sale. "
+        "costPerForecastBoe = mean monthly cost x 60 / forecast BOE; ratioGroup "
+        "marks the 5 lowest (best) and 5 highest (worst) on that ratio."
     ),
     "wells": rows_out,
     "decommissionOrSell": [w for w in rows_out if w["recommendation"] == "Decommission / sell"],
+    "lowestCostPerBoe": [w for w in rows_out if w["ratioGroup"] == "best"],
+    "highestCostPerBoe": [w for w in rows_out if w["ratioGroup"] == "worst"],
 }
 OUT_PATH.write_text(json.dumps(payload, indent=2))
 print(f"\nWrote {OUT_PATH}  ({len(rows_out)} wells)")

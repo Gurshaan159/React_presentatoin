@@ -1,6 +1,6 @@
 {
   "generatedBy": "scripts/finance.py",
-  "method": "Per-well 5-year hyperbolic-forecast BOE and mean operating cost, each min-max normalized (production up = better, cost down = better), combined 50/50 into Well_Score. Bottom 5 flagged for decommission/sale.",
+  "method": "Per-well 5-year hyperbolic-forecast BOE and mean operating cost, each min-max normalized (production up = better, cost down = better), combined 50/50 into Well_Score. Bottom 5 flagged for decommission/sale. costPerForecastBoe = mean monthly cost x 60 / forecast BOE; ratioGroup marks the 5 lowest (best) and 5 highest (worst) on that ratio.",
   "wells": [
     {
       "wellId": "W0040",
@@ -9,7 +9,9 @@
       "productionScore": 0.1599,
       "costScore": 0.4821,
       "wellScore": 0.321,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 3.5,
+      "ratioGroup": null
     },
     {
       "wellId": "W0035",
@@ -18,7 +20,9 @@
       "productionScore": 0.4533,
       "costScore": 0.2301,
       "wellScore": 0.3417,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 1.68,
+      "ratioGroup": null
     },
     {
       "wellId": "W0018",
@@ -27,7 +31,9 @@
       "productionScore": 0.2108,
       "costScore": 0.4745,
       "wellScore": 0.3426,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 2.77,
+      "ratioGroup": null
     },
     {
       "wellId": "W0009",
@@ -36,7 +42,9 @@
       "productionScore": 0.1317,
       "costScore": 0.5998,
       "wellScore": 0.3657,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 3.67,
+      "ratioGroup": null
     },
     {
       "wellId": "W0030",
@@ -45,7 +53,9 @@
       "productionScore": 0.4126,
       "costScore": 0.3362,
       "wellScore": 0.3744,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 1.69,
+      "ratioGroup": null
     },
     {
       "wellId": "W0033",
@@ -54,7 +64,9 @@
       "productionScore": 0.1926,
       "costScore": 0.5901,
       "wellScore": 0.3913,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 2.68,
+      "ratioGroup": null
     },
     {
       "wellId": "W0016",
@@ -63,7 +75,9 @@
       "productionScore": 0.1038,
       "costScore": 0.6794,
       "wellScore": 0.3916,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 4.08,
+      "ratioGroup": "worst"
     },
     {
       "wellId": "W0026",
@@ -72,7 +86,9 @@
       "productionScore": 0.3957,
       "costScore": 0.3939,
       "wellScore": 0.3948,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.67,
+      "ratioGroup": null
     },
     {
       "wellId": "W0003",
@@ -81,7 +97,9 @@
       "productionScore": 0.1782,
       "costScore": 0.6191,
       "wellScore": 0.3986,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 2.78,
+      "ratioGroup": null
     },
     {
       "wellId": "W0005",
@@ -90,7 +108,9 @@
       "productionScore": 0.3545,
       "costScore": 0.4435,
       "wellScore": 0.399,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.77,
+      "ratioGroup": null
     },
     {
       "wellId": "W0025",
@@ -99,7 +119,9 @@
       "productionScore": 0.1121,
       "costScore": 0.6931,
       "wellScore": 0.4026,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 3.77,
+      "ratioGroup": "worst"
     },
     {
       "wellId": "W0034",
@@ -108,7 +130,9 @@
       "productionScore": 0.3136,
       "costScore": 0.4981,
       "wellScore": 0.4058,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.89,
+      "ratioGroup": null
     },
     {
       "wellId": "W0023",
@@ -117,7 +141,9 @@
       "productionScore": 0.4376,
       "costScore": 0.4122,
       "wellScore": 0.4249,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.5,
+      "ratioGroup": null
     },
     {
       "wellId": "W0022",
@@ -126,7 +152,9 @@
       "productionScore": 0.3239,
       "costScore": 0.5362,
       "wellScore": 0.43,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.77,
+      "ratioGroup": null
     },
     {
       "wellId": "W0008",
@@ -135,7 +163,9 @@
       "productionScore": 0.3723,
       "costScore": 0.5192,
       "wellScore": 0.4458,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.58,
+      "ratioGroup": null
     },
     {
       "wellId": "W0015",
@@ -144,7 +174,9 @@
       "productionScore": 0.0308,
       "costScore": 0.8853,
       "wellScore": 0.458,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 7.06,
+      "ratioGroup": "worst"
     },
     {
       "wellId": "W0019",
@@ -153,7 +185,9 @@
       "productionScore": 0.9271,
       "costScore": 0.0,
       "wellScore": 0.4635,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 0.99,
+      "ratioGroup": null
     },
     {
       "wellId": "W0021",
@@ -162,7 +196,9 @@
       "productionScore": 0.3876,
       "costScore": 0.5408,
       "wellScore": 0.4642,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.49,
+      "ratioGroup": null
     },
     {
       "wellId": "W0010",
@@ -171,7 +207,9 @@
       "productionScore": 0.8555,
       "costScore": 0.075,
       "wellScore": 0.4653,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.02,
+      "ratioGroup": null
     },
     {
       "wellId": "W0024",
@@ -180,7 +218,9 @@
       "productionScore": 0.0305,
       "costScore": 0.9166,
       "wellScore": 0.4736,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 6.76,
+      "ratioGroup": "worst"
     },
     {
       "wellId": "W0027",
@@ -189,7 +229,9 @@
       "productionScore": 0.3427,
       "costScore": 0.6245,
       "wellScore": 0.4836,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 1.53,
+      "ratioGroup": null
     },
     {
       "wellId": "W0001",
@@ -198,7 +240,9 @@
       "productionScore": 0.0,
       "costScore": 1.0,
       "wellScore": 0.5,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 12.57,
+      "ratioGroup": "worst"
     },
     {
       "wellId": "W0037",
@@ -207,7 +251,9 @@
       "productionScore": 1.0,
       "costScore": 0.0076,
       "wellScore": 0.5038,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 0.92,
+      "ratioGroup": null
     },
     {
       "wellId": "W0020",
@@ -216,7 +262,9 @@
       "productionScore": 0.9702,
       "costScore": 0.0681,
       "wellScore": 0.5191,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 0.91,
+      "ratioGroup": null
     },
     {
       "wellId": "W0017",
@@ -225,7 +273,9 @@
       "productionScore": 0.776,
       "costScore": 0.3706,
       "wellScore": 0.5733,
-      "recommendation": "Keep"
+      "recommendation": "Keep",
+      "costPerForecastBoe": 0.9,
+      "ratioGroup": null
     },
     {
       "wellId": "W0007",
@@ -234,7 +284,9 @@
       "productionScore": 0.6016,
       "costScore": 0.6701,
       "wellScore": 0.6359,
-      "recommendation": "Invest / keep"
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.86,
+      "ratioGroup": "best"
     },
     {
       "wellId": "W0014",
@@ -243,7 +295,9 @@
       "productionScore": 0.5427,
       "costScore": 0.7423,
       "wellScore": 0.6425,
-      "recommendation": "Invest / keep"
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.87,
+      "ratioGroup": "best"
     },
     {
       "wellId": "W0028",
@@ -252,7 +306,9 @@
       "productionScore": 0.8145,
       "costScore": 0.4948,
       "wellScore": 0.6547,
-      "recommendation": "Invest / keep"
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.77,
+      "ratioGroup": "best"
     },
     {
       "wellId": "W0006",
@@ -261,7 +317,9 @@
       "productionScore": 0.6358,
       "costScore": 0.7167,
       "wellScore": 0.6763,
-      "recommendation": "Invest / keep"
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.77,
+      "ratioGroup": "best"
     },
     {
       "wellId": "W0039",
@@ -270,7 +328,9 @@
       "productionScore": 0.7791,
       "costScore": 0.586,
       "wellScore": 0.6826,
-      "recommendation": "Invest / keep"
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.73,
+      "ratioGroup": "best"
     }
   ],
   "decommissionOrSell": [
@@ -281,7 +341,9 @@
       "productionScore": 0.1599,
       "costScore": 0.4821,
       "wellScore": 0.321,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 3.5,
+      "ratioGroup": null
     },
     {
       "wellId": "W0035",
@@ -290,7 +352,9 @@
       "productionScore": 0.4533,
       "costScore": 0.2301,
       "wellScore": 0.3417,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 1.68,
+      "ratioGroup": null
     },
     {
       "wellId": "W0018",
@@ -299,7 +363,9 @@
       "productionScore": 0.2108,
       "costScore": 0.4745,
       "wellScore": 0.3426,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 2.77,
+      "ratioGroup": null
     },
     {
       "wellId": "W0009",
@@ -308,7 +374,9 @@
       "productionScore": 0.1317,
       "costScore": 0.5998,
       "wellScore": 0.3657,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 3.67,
+      "ratioGroup": null
     },
     {
       "wellId": "W0030",
@@ -317,7 +385,123 @@
       "productionScore": 0.4126,
       "costScore": 0.3362,
       "wellScore": 0.3744,
-      "recommendation": "Decommission / sell"
+      "recommendation": "Decommission / sell",
+      "costPerForecastBoe": 1.69,
+      "ratioGroup": null
+    }
+  ],
+  "lowestCostPerBoe": [
+    {
+      "wellId": "W0007",
+      "avgOperatingCost": 13420.04,
+      "forecast5yrBoe": 940669.0,
+      "productionScore": 0.6016,
+      "costScore": 0.6701,
+      "wellScore": 0.6359,
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.86,
+      "ratioGroup": "best"
+    },
+    {
+      "wellId": "W0014",
+      "avgOperatingCost": 12317.58,
+      "forecast5yrBoe": 852506.0,
+      "productionScore": 0.5427,
+      "costScore": 0.7423,
+      "wellScore": 0.6425,
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.87,
+      "ratioGroup": "best"
+    },
+    {
+      "wellId": "W0028",
+      "avgOperatingCost": 16099.29,
+      "forecast5yrBoe": 1259500.0,
+      "productionScore": 0.8145,
+      "costScore": 0.4948,
+      "wellScore": 0.6547,
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.77,
+      "ratioGroup": "best"
+    },
+    {
+      "wellId": "W0006",
+      "avgOperatingCost": 12709.15,
+      "forecast5yrBoe": 991972.0,
+      "productionScore": 0.6358,
+      "costScore": 0.7167,
+      "wellScore": 0.6763,
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.77,
+      "ratioGroup": "best"
+    },
+    {
+      "wellId": "W0039",
+      "avgOperatingCost": 14705.23,
+      "forecast5yrBoe": 1206509.0,
+      "productionScore": 0.7791,
+      "costScore": 0.586,
+      "wellScore": 0.6826,
+      "recommendation": "Invest / keep",
+      "costPerForecastBoe": 0.73,
+      "ratioGroup": "best"
+    }
+  ],
+  "highestCostPerBoe": [
+    {
+      "wellId": "W0016",
+      "avgOperatingCost": 13278.91,
+      "forecast5yrBoe": 195391.0,
+      "productionScore": 0.1038,
+      "costScore": 0.6794,
+      "wellScore": 0.3916,
+      "recommendation": "Keep",
+      "costPerForecastBoe": 4.08,
+      "ratioGroup": "worst"
+    },
+    {
+      "wellId": "W0025",
+      "avgOperatingCost": 13068.63,
+      "forecast5yrBoe": 207882.0,
+      "productionScore": 0.1121,
+      "costScore": 0.6931,
+      "wellScore": 0.4026,
+      "recommendation": "Keep",
+      "costPerForecastBoe": 3.77,
+      "ratioGroup": "worst"
+    },
+    {
+      "wellId": "W0015",
+      "avgOperatingCost": 10133.01,
+      "forecast5yrBoe": 86077.0,
+      "productionScore": 0.0308,
+      "costScore": 0.8853,
+      "wellScore": 0.458,
+      "recommendation": "Keep",
+      "costPerForecastBoe": 7.06,
+      "ratioGroup": "worst"
+    },
+    {
+      "wellId": "W0024",
+      "avgOperatingCost": 9653.36,
+      "forecast5yrBoe": 85623.0,
+      "productionScore": 0.0305,
+      "costScore": 0.9166,
+      "wellScore": 0.4736,
+      "recommendation": "Keep",
+      "costPerForecastBoe": 6.76,
+      "ratioGroup": "worst"
+    },
+    {
+      "wellId": "W0001",
+      "avgOperatingCost": 8379.53,
+      "forecast5yrBoe": 39995.0,
+      "productionScore": 0.0,
+      "costScore": 1.0,
+      "wellScore": 0.5,
+      "recommendation": "Keep",
+      "costPerForecastBoe": 12.57,
+      "ratioGroup": "worst"
     }
   ]
 }

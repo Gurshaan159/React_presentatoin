@@ -20,7 +20,3 @@ function Slot({ name, kind }) {
 export function Q3HseRiskChart() {
   return <Slot name="Q3HseRiskChart" kind="Chart — HSE risk drivers" />;
 }
-
-export function Q5InvestmentTable() {
-  return <Slot name="Q5InvestmentTable" kind="Table — investment tiers" />;
-}

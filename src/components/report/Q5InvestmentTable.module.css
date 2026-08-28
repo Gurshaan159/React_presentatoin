@@ -1,0 +1,83 @@
+.chart {
+  font-family: var(--est-font-sans);
+  color: var(--est-charcoal);
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.evidence,
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.82rem;
+}
+.evidence {
+  min-width: 40rem;
+}
+.evidence caption {
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--est-slate);
+  margin-bottom: 0.5rem;
+}
+.evidence th,
+.evidence td,
+.table th,
+.table td {
+  padding: 0.45rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--est-gray-border);
+  vertical-align: top;
+}
+.evidence thead th,
+.table thead th {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--est-mute);
+  border-bottom-color: var(--est-charcoal);
+}
+.evidence th[scope='row'] {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.evidenceSite {
+  display: block;
+  font-weight: 400;
+  font-size: 0.72rem;
+  color: var(--est-mute);
+}
+.dispShed {
+  color: var(--est-viz-decommission);
+  font-weight: 600;
+}
+
+.tableWrap {
+  margin-top: 1.5rem;
+  font-size: 0.82rem;
+}
+.tableWrap summary {
+  cursor: pointer;
+  color: var(--est-blue);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+.table {
+  min-width: 34rem;
+}
+.table th,
+.table td {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.table td:nth-child(4),
+.table td:nth-child(5),
+.table td:nth-child(6),
+.table th:nth-child(4),
+.table th:nth-child(5),
+.table th:nth-child(6) {
+  text-align: right;
+}

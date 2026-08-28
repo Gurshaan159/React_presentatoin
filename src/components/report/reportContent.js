@@ -1,7 +1,8 @@
-import { Q3HseRiskChart, Q5InvestmentTable } from './vizSlots.jsx';
+import { Q3HseRiskChart } from './vizSlots.jsx';
 import Q1DeclineChart from './Q1DeclineChart.jsx';
 import Q2EfficiencyChart from './Q2EfficiencyChart.jsx';
 import Q4EconomicsChart from './Q4EconomicsChart.jsx';
+import Q5InvestmentTable from './Q5InvestmentTable.jsx';
 import heroImage from '../../assets/exploration-and-drilling.jpg';
 import hseImage from '../../assets/hse-rig-incident.jpg';
 
@@ -99,7 +100,7 @@ export const questions = [
       'Safety and margin set aside: five-year forecast volume against cost to run.',
     Visual: Q4EconomicsChart,
     caption:
-      'Each well’s five-year forecast BOE against mean monthly operating cost, normalized 0–1 and blended 50/50 into the well score below. The five lowest are flagged; 30 of 40 wells are scored, the rest shut-in with no operating history.',
+      'Each well’s five-year forecast BOE against mean monthly operating cost. Labelled points are the 5 lowest (teal) and 5 highest (rust) on operating cost per forecast barrel — the slope from the origin. 30 of 40 wells are scored, the rest shut-in with no operating history.',
     analysis: [
       'W0040, W0009 and W0018 are flagged for thin forecast volume — under 360,000 BOE over five years — and W0035 and W0030 for cost: they still produce 650,000–720,000 BOE but run $18,500–$20,000 a month, near the top of the field.',
       'The big producers (W0037, W0020, W0019) score only mid-pack because they are also the most expensive to operate; the cheapest wells (W0001, W0024) are nearly dead on volume. The shortlist is the wells caught between — real cost, unremarkable output, no case for fresh capital.',
@@ -109,15 +110,51 @@ export const questions = [
     id: 'q5',
     number: '05',
     railLabel: 'Where to invest',
-    // FINDING: S03 infill drilling best ROI ($16/boe, clean HSE); S01/S08 lift upgrades marginal; S05 gated on HSE.
+    // FINDING (scripts/q5_investment.py): tier-1 S03 infill = best ROI ($16/BOE, clean HSE).
+    // The 3 compliance-capex picks (W0020/W0033/W0027) are all also on the sell list.
     subhead: 'The upside is a drilling program at Midland Central',
-    leadIn: 'Where new capital earns the most, and where it is currently blocked.',
+    leadIn:
+      'The cleanest returns are the tier-1 Midland Central infill wells in the table below. These four are a narrower case — each still earns, and each carries a compliance problem capital can close before the well is sold.',
     Visual: Q5InvestmentTable,
     caption:
-      'Investment tiers by well: intervention type, incremental BOE, cost of supply, and whether an HSE gate applies.',
+      'The three compliance-capex picks plus the weak case (W0015), with the incident record behind each intervention. Full 23-well screen inside.',
+    bullets: true,
     analysis: [
-      'Offset and infill drilling at Midland Central is the clearest return: W0028, W0039, W0007, W0006 and W0014 pair high rates and clean safety records with ~74 percent margins and a $16-per-barrel cost of supply, the lowest in the portfolio.',
-      'A second tier of artificial-lift and water-shutoff work at Estacado Ridge and Alamo Sunset pays out on thinner ~8 percent margins. Wolfcamp North stays off the list — the upside is real but cannot be underwritten until the section 03 safety remediation is funded.',
+      {
+        point: 'W0020 · Wolfcamp North',
+        reasons: [
+          'Third-largest producer in the field, ~1,027 BOE/d.',
+          '~$20M/yr profit at a $21/BOE lift cost — comfortably economic.',
+          'Record shows a compressor fire and three flare-permit breaches.',
+          'Flare-gas recovery + compressor reliability closes an active permit problem, so the well can divest without a plugging obligation.',
+        ],
+      },
+      {
+        point: 'W0033 · Andrews Legacy',
+        reasons: [
+          '~271 BOE/d and declining ~29%/yr, but still cash-positive at ~$2.7M/yr.',
+          'Two flare-permit breaches and a compressor fire on record.',
+          'Flare-gas recovery is a modest spend that slows flared-gas losses and clears the compliance flag before the well is marketed.',
+        ],
+      },
+      {
+        point: 'W0027 · Alamo Sunset',
+        reasons: [
+          '~416 BOE/d, 53% margin, ~$6.6M/yr.',
+          'Water cut near 49% — inside the window where artificial lift still pays.',
+          'A tank overfill and a pad spill on record; tank automation + level control fixes the recurring cause.',
+          'Divests cleaner with no open spill history.',
+        ],
+      },
+      {
+        point: 'W0015 · Delaware Flats',
+        reasons: [
+          'Spend-to-exit, not growth — it loses money (−29% margin, 97% water cut, 44%/yr decline).',
+          'Both screens say sell or plug.',
+          'Two off-pad produced-water releases are the liability.',
+          'A water-handling workover with secondary containment clears it, so the well divests without a plugging obligation.',
+        ],
+      },
     ],
   },
 ];
@@ -139,6 +176,42 @@ export const verdict = {
     },
     {
       text: 'In that order, the acquisition raises production per dollar of operating cost, pulls compliance risk down by fixing it where it sits, and extends the life of the wells that matter — provided ConocoPhillips buys the problem at S05 with its eyes open.',
+    },
+  ],
+};
+
+/**
+ * The team behind the analysis. `initials` is optional — the card derives them
+ * from `name` when omitted. Replace the placeholder names.
+ */
+export const authors = {
+  heading: 'The team',
+  blurb:
+    'Four of us built this — one lead per question, plus the data cleaning and joins that tie them together.',
+  people: [
+    {
+      name: 'Your Name',
+      role: 'Production & decline',
+      focus:
+        'Fitted the hyperbolic Arps decline curves and built the trailing-six-month producer ranking behind section 01.',
+    },
+    {
+      name: 'Your Name',
+      role: 'Efficiency & instrumentation',
+      focus:
+        'Weighted site output by IoT sensor reliability and traced the measurement gap at Wolfcamp North for section 02.',
+    },
+    {
+      name: 'Your Name',
+      role: 'HSE & incident analysis',
+      focus:
+        'Rolled up the incident record by well and site and found where severity actually concentrates for section 03.',
+    },
+    {
+      name: 'Your Name',
+      role: 'Economics & screens',
+      focus:
+        'Ran the decommission, divestment and investment screens and the cost-of-supply model behind sections 04 and 05.',
     },
   ],
 };

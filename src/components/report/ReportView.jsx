@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { themeCssVars } from '../../theme.js';
-import { article, lede, questions, verdict } from './reportContent.js';
+import { article, authors, lede, questions, verdict } from './reportContent.js';
 import ArticleHeader from './ArticleHeader.jsx';
 import Lede from './Lede.jsx';
 import QuickNav from './QuickNav.jsx';
 import ArticleSection from './ArticleSection.jsx';
 import Conclusion from './Conclusion.jsx';
+import AuthorsSection from './AuthorsSection.jsx';
 import ReportFooter from './ReportFooter.jsx';
 import styles from './Report.module.css';
 
@@ -53,6 +54,15 @@ function ReportView() {
     setActiveId(id);
   };
 
+  const handleToTop = () => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (history.replaceState) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    setActiveId(SECTION_IDS[0]);
+  };
+
   return (
     <div className={styles.page} style={themeCssVars}>
       <a className={styles.skipLink} href="#q1">
@@ -76,12 +86,18 @@ function ReportView() {
               leadIn={q.leadIn}
               caption={q.caption}
               analysis={q.analysis}
+              bullets={q.bullets}
               Visual={q.Visual}
             />
           ))}
 
           <Conclusion id={VERDICT_ID} verdict={verdict} />
+          <AuthorsSection authors={authors} />
           <ReportFooter meta={article.byline} />
+
+          <button type="button" className={styles.backToTop} onClick={handleToTop}>
+            From the Top <span aria-hidden="true">↑</span>
+          </button>
         </article>
       </div>
     </div>

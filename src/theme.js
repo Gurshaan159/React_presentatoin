@@ -65,7 +65,7 @@ export const typography = {
     body: 1.7,
     heading: 1.18,
   },
-  measure: '68ch', // article column width
+  measure: '74ch', // article prose measure
 };
 
 export const radius = {
