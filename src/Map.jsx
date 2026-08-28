@@ -18,6 +18,20 @@ const WELL_AVERAGES_BY_SITE = wellAveragesCsv
     return acc;
   }, {});
 
+// Enriched HSE detail, keyed by site_code. Manager + serious_events come from
+// hse_index_by_site_enriched.csv; the root-cause / top-well breakdowns are
+// tallied from the real incident titles in hse_incidents.cleaned.json.
+const HSE_ENRICHED = {
+  S05: { manager: 'Sam Ford', serious_events: 21, serious_root_cause: 'Lost-time injury 13x | Recordable injury 6x | Fire / near miss 4x', site_root_cause: 'Lost-time injury 13x | Vehicle incident 7x | Hydrocarbon spill 7x', top_well: 'W0037', top_well_incidents: 19, top_well_root_cause: 'Permit violation 4x | Lost-time injury 3x' },
+  S04: { manager: 'Alex Chen', serious_events: 5, serious_root_cause: 'Fire / near miss 2x | Lost-time injury 1x | Recordable injury 1x', site_root_cause: 'Produced water release 4x | Slip / trip / fall 3x | Fire / near miss 2x', top_well: 'W0001', top_well_incidents: 14, top_well_root_cause: 'Produced water release 4x | Fire / near miss 2x' },
+  S06: { manager: 'Priya Rao', serious_events: 3, serious_root_cause: 'Recordable injury 2x | Lost-time injury 1x | Fire / near miss 1x', site_root_cause: 'Minor spill 4x | Vehicle incident 3x | Recordable injury 2x', top_well: 'W0015', top_well_incidents: 8, top_well_root_cause: 'Minor spill 3x | Produced water release 2x' },
+  S02: { manager: 'Kim Vega', serious_events: 3, serious_root_cause: 'Uncontrolled release 1x | Serious injury 1x | Fire / near miss 1x', site_root_cause: 'Slip / trip / fall 3x | Regulatory citation 2x | Uncontrolled release 1x', top_well: 'W0025', top_well_incidents: 6, top_well_root_cause: 'Slip / trip / fall 2x | Uncontrolled release 1x' },
+  S08: { manager: 'Nina Kwan', serious_events: 2, serious_root_cause: 'Uncontrolled release 1x | Serious injury 1x', site_root_cause: 'Minor spill 2x | Environmental exceedance 2x | Regulatory citation 2x', top_well: 'W0027', top_well_incidents: 3, top_well_root_cause: 'Minor spill 1x | Hydrocarbon spill 1x' },
+  S07: { manager: 'Luis Diaz', serious_events: 0, serious_root_cause: '', site_root_cause: 'Minor spill 4x | Recordable injury 2x | Environmental exceedance 2x', top_well: 'W0033', top_well_incidents: 5, top_well_root_cause: 'Environmental exceedance 2x | Lost-time injury 1x' },
+  S01: { manager: 'Jane Ortiz', serious_events: 1, serious_root_cause: 'Recordable injury 1x', site_root_cause: 'Environmental exceedance 2x | Slip / trip / fall 1x | Recordable injury 1x', top_well: 'W0026', top_well_incidents: 4, top_well_root_cause: 'Slip / trip / fall 1x | Environmental exceedance 1x' },
+  S03: { manager: 'Ravi Patel', serious_events: 0, serious_root_cause: '', site_root_cause: 'Vehicle incident 2x', top_well: 'W0006', top_well_incidents: 1, top_well_root_cause: 'Vehicle incident 1x' },
+};
+
 // Risk band -> colour. Matched on the leading phrase of `risk_band`.
 const RISK_COLORS = [
   { key: 'Critical risk', color: '#b00020', label: 'Critical risk' },
@@ -25,6 +39,14 @@ const RISK_COLORS = [
   { key: 'Low risk', color: '#0f9d58', label: 'Low risk' },
   { key: 'Minimal risk', color: '#1a73e8', label: 'Minimal risk' }
 ];
+
+// Root-cause strings only list the top few categories, so their "Nx" counts
+// don't sum to the site/well total. Append "+N other" so it doesn't read as a bug.
+function withRemainder(causeStr, total) {
+  const counted = (causeStr.match(/(\d+)x/g) || []).reduce((s, m) => s + parseInt(m, 10), 0);
+  const rest = total - counted;
+  return rest > 0 ? `${causeStr} | +${rest} other` : causeStr;
+}
 
 function riskColor(band) {
   const hit = RISK_COLORS.find((r) => band.startsWith(r.key));
@@ -117,10 +139,6 @@ export default function Map() {
                 <div style={styles.statLabel}>HSE index</div>
               </div>
               <div>
-                <div style={styles.statValue}>{selected.OilBarrelsPerDay}</div>
-                <div style={styles.statLabel}>Oil Barrels Per Day</div>
-              </div>
-              <div>
                 <div style={styles.statValue}>{selected.last_incident_date}</div>
                 <div style={styles.statLabel}>Last Incident</div>
               </div>
@@ -139,6 +157,37 @@ export default function Map() {
             <div style={{ ...styles.riskPill, background: riskColor(selected.risk_band) }}>
               {selected.risk_band}
             </div>
+
+            {HSE_ENRICHED[selected.site_code] && (() => {
+              const e = HSE_ENRICHED[selected.site_code];
+              return (
+                <div style={styles.detail}>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Manager</span>
+                    <span style={styles.detailValue}>{e.manager}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Severity</span>
+                    <span style={styles.detailValue}>
+                      {e.serious_events} serious event{e.serious_events === 1 ? '' : 's'} of {selected.n_incidents} incidents
+                      {e.serious_root_cause && (
+                        <span style={styles.detailExample}>{e.serious_root_cause}</span>
+                      )}
+                    </span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Root cause</span>
+                    <span style={styles.detailValue}>{withRemainder(e.site_root_cause, selected.n_incidents)}</span>
+                  </div>
+                  <div style={styles.detailRow}>
+                    <span style={styles.detailLabel}>Top well</span>
+                    <span style={styles.detailValue}>
+                      &#9733; {e.top_well} &mdash; {e.top_well_incidents} incidents ({withRemainder(e.top_well_root_cause, e.top_well_incidents)})
+                    </span>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         </div>
       )}
@@ -161,16 +210,22 @@ export default function Map() {
                   </tr>
                 </thead>
                 <tbody>
-                  {production.wells.map((w) => (
+                  {production.wells.map((w) => {
+                    const isTop = HSE_ENRICHED[production.site]?.top_well === w.well;
+                    return (
                     <tr key={w.well}>
-                      <td style={styles.td}>{w.well}</td>
+                      <td style={{ ...styles.td, fontWeight: isTop ? 700 : 400 }}>
+                        {isTop && <span title="Highest-incident well" style={styles.star}>&#9733; </span>}
+                        {w.well}
+                      </td>
                       <td style={styles.td}>{w.days}</td>
                       <td style={styles.td}>{w.oil}</td>
                       <td style={styles.td}>{w.gas}</td>
                       <td style={styles.td}>{w.water}</td>
                       <td style={styles.td}>{w.boe}</td>
                     </tr>
-                  ))}
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -212,8 +267,8 @@ const styles = {
   },
   title: { color: '#1a1a1a', fontWeight: 500, fontSize: 28, margin: '6px 0 20px' },
   stats: {
-    display: 'flex', gap: 24, borderTop: '1px solid #eee', borderBottom: '1px solid #eee',
-    padding: '16px 0',
+    display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, textAlign: 'center',
+    borderTop: '1px solid #eee', borderBottom: '1px solid #eee', padding: '16px 0',
   },
   statValue: { fontSize: 18, fontWeight: 600, color: '#1a1a1a' },
   statLabel: {
@@ -222,6 +277,15 @@ const styles = {
   riskPill: {
     marginTop: 20, padding: '10px 14px', borderRadius: 4, color: '#fff', fontSize: 14, lineHeight: 1.4,
   },
+  detail: { marginTop: 16, display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13, lineHeight: 1.4, textAlign: 'left' },
+  detailRow: { display: 'flex', gap: 12, justifyContent: 'flex-start' },
+  detailLabel: {
+    flex: '0 0 96px', textTransform: 'uppercase', letterSpacing: 0.5, fontSize: 11,
+    color: '#5f6368', fontWeight: 600, paddingTop: 1,
+  },
+  detailValue: { color: '#1a1a1a', flex: 1, textAlign: 'left' },
+  detailExample: { display: 'block', marginTop: 3, color: '#5f6368', fontSize: 12, textAlign: 'left' },
+  star: { color: '#f4b400' },
   prodCard: { width: 'min(1100px, 95vw)', maxWidth: '95vw' },
   prodBody: { padding: 24 },
   tableWrap: { marginTop: 12, maxHeight: '78vh', overflow: 'auto', border: '1px solid #eee' },
