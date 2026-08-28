@@ -115,7 +115,8 @@ export const questions = [
     number: '05',
     railLabel: 'Where to invest',
     // FINDING (scripts/q5_investment.py): tier-1 S03 infill = best ROI ($16/BOE, clean HSE).
-    // Focused recommendations: W0020 offset drilling/safety and W0033 workover.
+    // Focused recommendations: W0020 offset drilling/safety, W0033 workover,
+    // and W0037 safety remediation before further drilling.
     subhead: 'The upside is a drilling program at Midland Central',
     bullets: true,
     analysis: [
@@ -135,6 +136,13 @@ export const questions = [
           'Its IoT reliability score of 0.870 creates a recoverable production gap of roughly 14.6 kBOE per year.',
           'Operating cost remains moderate relative to the portfolio, so unusually high day-to-day costs are not the underlying problem.',
           'Meaningful recoverable production and a manageable cost profile make W0033 a clear workover candidate.',
+        ],
+      },
+      {
+        point: 'W0037 · Wolfcamp North',
+        reasons: [
+          'W0037 has the largest recorded HSE incident count in the portfolio, so investment should begin with improving safety performance.',
+          'If safety standards improve and incident risk falls, the well can become a candidate for future offset drilling.',
         ],
       },
     ],
