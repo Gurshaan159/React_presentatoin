@@ -4,6 +4,10 @@ import Q4EconomicsChart from './Q4EconomicsChart.jsx';
 import Map from '../../Map.jsx';
 import heroImage from '../../assets/exploration-and-drilling.jpg';
 import hseImage from '../../assets/hse-rig-incident.jpg';
+import ronielleImg from '../../assets/ronielle-maranan.webp';
+import syedImg from '../../assets/syed-aariz.jpg';
+import gurshannImg from '../../assets/gurshann-thukral.webp';
+import diamondImg from '../../assets/diamond-taylor.jpg';
 
 /** Article header + byline. */
 export const article = {
@@ -11,7 +15,7 @@ export const article = {
   headline: 'Should ConocoPhillips Absorb Estacado Energy’s Wells?',
   dek: 'We rebuilt the portfolio from a year of production, sensor, safety, and cost data to see which of the 40 wells are worth keeping and what the deal would take.',
   byline: {
-    authors: 'Team Estacado',
+    authors: 'Team Three',
     date: 'August 2026',
     readTime: '8 min read',
   },
@@ -177,37 +181,32 @@ export const verdict = {
 
 /**
  * The team behind the analysis — shown in the masthead between the dek and the
- * byline. Per person: `image` (optional imported asset / URL for a photo;
- * without it the card shows an initials monogram), `initials` (optional, else
- * derived from `name`), `role`, `focus`. Replace the placeholder names.
+ * byline. Per person: `name`, `affiliation` (school · major), and `image`
+ * (optional imported asset / URL for a photo; without it the card shows an
+ * initials monogram, or an explicit `initials` override).
  */
 export const authors = {
-  heading: 'The team',
-  blurb: 'One lead per question, plus the data cleaning and joins that tie them together.',
+  heading: 'Our colleges and majors',
   people: [
     {
-      name: 'Your Name',
-      role: 'Production & decline',
-      focus:
-        'Fitted the hyperbolic Arps decline curves and built the trailing-six-month producer ranking behind section 01.',
+      name: 'Ronielle Maranan',
+      image: ronielleImg,
+      affiliation: 'University of Houston · Computer Science',
     },
     {
-      name: 'Your Name',
-      role: 'Efficiency & instrumentation',
-      focus:
-        'Weighted site output by IoT sensor reliability and traced the measurement gap at Wolfcamp North for section 02.',
+      name: 'Syed Aariz',
+      image: syedImg,
+      affiliation: 'University of Houston · Computer Science',
     },
     {
-      name: 'Your Name',
-      role: 'HSE & incident analysis',
-      focus:
-        'Rolled up the incident record by well and site and found where severity actually concentrates for section 03.',
+      name: 'Gurshann Thukral',
+      image: gurshannImg,
+      affiliation: 'Purdue University · Computer Science',
     },
     {
-      name: 'Your Name',
-      role: 'Economics & screens',
-      focus:
-        'Ran the decommission, divestment and investment screens and the cost-of-supply model behind sections 04 and 05.',
+      name: 'Diamond Taylor',
+      image: diamondImg,
+      affiliation: 'Prairie View A&M University · Management Information Systems',
     },
   ],
 };

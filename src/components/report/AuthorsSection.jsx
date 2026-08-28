@@ -11,8 +11,8 @@ function initialsOf(name) {
 
 /**
  * "The team" block — sits in the masthead between the dek and the byline. One
- * card per author, each sized to hold a square portrait image (with an initials
- * fallback) plus name, role, and a short line of what they did.
+ * card per author: a square portrait (with an initials fallback), the name, and
+ * an affiliation line (school · major).
  *
  * Give a person an `image` (imported asset or URL) to show a photo; without one
  * the card shows an initials monogram.
@@ -29,7 +29,7 @@ function AuthorsSection({ authors, id = 'team' }) {
 
       <ul className={styles.teamGrid}>
         {authors.people.map((p) => (
-          <li key={`${p.name}-${p.role}`} className={styles.teamCard}>
+          <li key={p.name} className={styles.teamCard}>
             <div className={styles.teamPhoto}>
               {p.image ? (
                 <img src={p.image} alt={p.name} loading="lazy" />
@@ -41,8 +41,9 @@ function AuthorsSection({ authors, id = 'team' }) {
             </div>
             <div className={styles.teamText}>
               <span className={styles.teamName}>{p.name}</span>
-              <span className={styles.teamRole}>{p.role}</span>
-              <span className={styles.teamFocus}>{p.focus}</span>
+              {p.affiliation ? (
+                <span className={styles.teamAffil}>{p.affiliation}</span>
+              ) : null}
             </div>
           </li>
         ))}
