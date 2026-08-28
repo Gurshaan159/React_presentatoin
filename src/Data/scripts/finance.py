@@ -9,11 +9,11 @@ from scipy.optimize import curve_fit
 # ============================================================
 
 production = pd.read_csv(
-    r'C:\Users\User\Desktop\Estacado Acquisition\Estacado Acquisition\production.csv'
+    r'C:\Users\User\Desktop\Questions1_2\Estacado Acquisition\production.csv'
 )
 
 finance = pd.read_json(
-    r'C:\Users\User\Desktop\Estacado Acquisition\Estacado Acquisition\financial_estacado.json'
+    r'C:\Users\User\Desktop\Questions1_2\Estacado Acquisition\financial_estacado.json'
 )
 
 
@@ -74,6 +74,14 @@ print(finance_clean[numeric_cols].dtypes)
 print("\nMissing numeric values after conversion:")
 print(finance_clean[numeric_cols].isna().sum())
 
+# ============================================================
+# RECALCULATE PROFIT
+# ============================================================
+
+finance_clean["profit"] = (
+    finance_clean["revenue"]
+    - finance_clean["operatingCost"]
+)
 
 # ============================================================
 # CLEAN FINANCE DATES
