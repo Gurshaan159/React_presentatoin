@@ -9,7 +9,7 @@ import styles from './Q4EconomicsChart.module.css';
  *
  * Data is generated at build time by scripts/finance.py from the raw
  * production.csv + financial_estacado.json (not the cleaned/ copies). Each well
- * gets a 5-year hyperbolic-forecast BOE and a mean monthly operating cost. The
+ * gets a 5-year hyperbolic-forecast BOE and a mean daily operating cost. The
  * ranking is the direct five-year operating-cost / forecast-BOE ratio. The five
  * highest $/BOE wells are flagged and the five lowest are the invest shortlist.
  *
@@ -17,7 +17,7 @@ import styles from './Q4EconomicsChart.module.css';
  * operating history and fall outside the screen.
  *
  * Encoding: scatter, one point per well — x = 5-yr forecast BOE, y = avg.
- * monthly operating cost. Colour = screen result (decommission / invest /
+ * daily operating cost. Colour = screen result (decommission / invest /
  * keep), matching the table's tag colours below. Only the ten flagged wells
  * get a direct label; the rest are reachable by hover/focus or in the table.
  */
@@ -93,7 +93,7 @@ function Q4EconomicsChart() {
     <div className={styles.chart} role="group" aria-labelledby={titleId}>
       <p id={titleId} className={styles.title}>
         Five-year forecast volume vs. operating cost, all 30 scored wells
-        <span className={styles.unit}>x: 5-yr forecast BOE · y: avg. operating cost per month</span>
+        <span className={styles.unit}>x: 5-yr forecast BOE · y: avg. operating cost per day</span>
       </p>
 
       <div className={styles.legend} aria-hidden="true">
@@ -137,6 +137,24 @@ function Q4EconomicsChart() {
           <line className={styles.baseline} x1={PLOT.x0} x2={PLOT.x1} y1={PLOT.y1} y2={PLOT.y1} />
           <line className={styles.baseline} x1={PLOT.x0} x2={PLOT.x0} y1={PLOT.y0} y2={PLOT.y1} />
 
+          <text
+            className={styles.axisTitle}
+            x={(PLOT.x0 + PLOT.x1) / 2}
+            y={VB.h - 3}
+            textAnchor="middle"
+          >
+            Five-year forecast BOE
+          </text>
+          <text
+            className={styles.axisTitle}
+            x={14}
+            y={(PLOT.y0 + PLOT.y1) / 2}
+            textAnchor="middle"
+            transform={`rotate(-90 14 ${(PLOT.y0 + PLOT.y1) / 2})`}
+          >
+            Average daily operating cost ($)
+          </text>
+
           {/* leader lines for dodged labels */}
           {LABELS.map((l) => {
             const p = POINTS.find((pt) => pt.wellId === l.id);
@@ -173,7 +191,7 @@ function Q4EconomicsChart() {
                 onBlur={() => setHoveredId(null)}
                 aria-label={
                   `${p.wellId}: ${fmtBoe(p.forecast5yrBoe)} BOE 5-yr forecast, ` +
-                  `${fmtCost(p.avgOperatingCost)} avg. monthly operating cost, ` +
+                  `${fmtCost(p.avgOperatingCost)} avg. daily operating cost, ` +
                   `${fmtRatio(p.operatingCostPerBoe)} per BOE, ${p.recommendation}`
                 }
               />
@@ -212,7 +230,7 @@ function Q4EconomicsChart() {
               5-yr BOE <b>{fmtBoe(hovered.forecast5yrBoe)}</b>
             </span>
             <span>
-              Avg. op. cost <b>{fmtCost(hovered.avgOperatingCost)}</b>
+              Avg. daily op. cost <b>{fmtCost(hovered.avgOperatingCost)}</b>
             </span>
             <span>
               Operating cost / BOE <b>{fmtRatio(hovered.operatingCostPerBoe)}</b>
@@ -310,7 +328,7 @@ function Table({ rows, full, caption }) {
           <tr>
             <th scope="col">Well</th>
             <th scope="col">5-yr BOE</th>
-            <th scope="col">Avg op. cost / mo</th>
+            <th scope="col">Avg op. cost / day</th>
             <th scope="col">Operating cost / BOE</th>
             <th scope="col">Screen result</th>
           </tr>

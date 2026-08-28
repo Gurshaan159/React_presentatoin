@@ -660,10 +660,10 @@ else:
 # OPERATING COST PER FORECAST BOE
 # ------------------------------------------------------------
 
-# Five years of monthly operating cost divided by five-year forecast volume.
+# Five years of daily operating cost divided by five-year forecast volume.
 # Lower $/BOE is better.
 well_df["Operating_Cost_Per_BOE"] = (
-    well_df["Avg_Operating_Cost"] * 60
+    well_df["Avg_Operating_Cost"] * (5 * 365)
     / well_df["Forecast_5yr_BOE"]
 )
 
@@ -707,7 +707,7 @@ for _, r in ranked.iterrows():
 payload = {
     "generatedBy": "scripts/finance.py",
     "method": (
-        "Per-well five-year operating cost (mean monthly cost times 60) divided "
+        "Per-well five-year operating cost (mean daily cost times 1,825) divided "
         "by five-year hyperbolic-forecast BOE. Lower cost per BOE is better; the "
         "five highest-ratio wells are flagged for decommission/sale."
     ),

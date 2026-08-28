@@ -1,253 +1,253 @@
 {
   "generatedBy": "scripts/finance.py",
-  "method": "Per-well five-year operating cost (mean monthly cost times 60) divided by five-year hyperbolic-forecast BOE. Lower cost per BOE is better; the five highest-ratio wells are flagged for decommission/sale.",
+  "method": "Per-well five-year operating cost (mean daily cost times 1,825) divided by five-year hyperbolic-forecast BOE. Lower cost per BOE is better; the five highest-ratio wells are flagged for decommission/sale.",
   "wells": [
     {
       "wellId": "W0001",
       "avgOperatingCost": 8379.53,
-      "forecast5yrBoe": 39995,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 12.57
+      "forecast5yrBoe": 39995.0,
+      "operatingCostPerBoe": 382.36,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0015",
       "avgOperatingCost": 10133.01,
-      "forecast5yrBoe": 86077,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 7.06
+      "forecast5yrBoe": 86077.0,
+      "operatingCostPerBoe": 214.84,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0024",
       "avgOperatingCost": 9653.36,
-      "forecast5yrBoe": 85623,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 6.76
+      "forecast5yrBoe": 85623.0,
+      "operatingCostPerBoe": 205.76,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0016",
       "avgOperatingCost": 13278.91,
-      "forecast5yrBoe": 195391,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 4.08
+      "forecast5yrBoe": 195391.0,
+      "operatingCostPerBoe": 124.03,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0025",
       "avgOperatingCost": 13068.63,
-      "forecast5yrBoe": 207882,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 3.77
+      "forecast5yrBoe": 207882.0,
+      "operatingCostPerBoe": 114.73,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0009",
       "avgOperatingCost": 14495.5,
-      "forecast5yrBoe": 237186,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 3.67
+      "forecast5yrBoe": 237186.0,
+      "operatingCostPerBoe": 111.53,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0040",
       "avgOperatingCost": 16293.03,
-      "forecast5yrBoe": 279344,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 3.5
+      "forecast5yrBoe": 279344.0,
+      "operatingCostPerBoe": 106.45,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0003",
       "avgOperatingCost": 14200.44,
-      "forecast5yrBoe": 306758,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 2.78
+      "forecast5yrBoe": 306758.0,
+      "operatingCostPerBoe": 84.48,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0018",
       "avgOperatingCost": 16410.31,
-      "forecast5yrBoe": 355649,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 2.77
+      "forecast5yrBoe": 355649.0,
+      "operatingCostPerBoe": 84.21,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0033",
       "avgOperatingCost": 14643.84,
-      "forecast5yrBoe": 328337,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 2.68
+      "forecast5yrBoe": 328337.0,
+      "operatingCostPerBoe": 81.4,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0034",
       "avgOperatingCost": 16049.59,
-      "forecast5yrBoe": 509487,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.89
+      "forecast5yrBoe": 509487.0,
+      "operatingCostPerBoe": 57.49,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0005",
       "avgOperatingCost": 16883.33,
-      "forecast5yrBoe": 570799,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.77
+      "forecast5yrBoe": 570799.0,
+      "operatingCostPerBoe": 53.98,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0022",
       "avgOperatingCost": 15466.37,
-      "forecast5yrBoe": 524859,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.77
+      "forecast5yrBoe": 524859.0,
+      "operatingCostPerBoe": 53.78,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0030",
       "avgOperatingCost": 18523.52,
-      "forecast5yrBoe": 657723,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.69
+      "forecast5yrBoe": 657723.0,
+      "operatingCostPerBoe": 51.4,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0035",
       "avgOperatingCost": 20145.12,
-      "forecast5yrBoe": 718646,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.68
+      "forecast5yrBoe": 718646.0,
+      "operatingCostPerBoe": 51.16,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0026",
       "avgOperatingCost": 17641.36,
-      "forecast5yrBoe": 632384,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.67
+      "forecast5yrBoe": 632384.0,
+      "operatingCostPerBoe": 50.91,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0008",
       "avgOperatingCost": 15726.32,
-      "forecast5yrBoe": 597451,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.58
+      "forecast5yrBoe": 597451.0,
+      "operatingCostPerBoe": 48.04,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0027",
       "avgOperatingCost": 14117.75,
-      "forecast5yrBoe": 553089,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.53
+      "forecast5yrBoe": 553089.0,
+      "operatingCostPerBoe": 46.58,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0023",
       "avgOperatingCost": 17362.18,
-      "forecast5yrBoe": 695117,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.5
+      "forecast5yrBoe": 695117.0,
+      "operatingCostPerBoe": 45.58,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0021",
       "avgOperatingCost": 15395.85,
-      "forecast5yrBoe": 620306,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.49
+      "forecast5yrBoe": 620306.0,
+      "operatingCostPerBoe": 45.3,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0010",
       "avgOperatingCost": 22514.78,
-      "forecast5yrBoe": 1320876,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 1.02
+      "forecast5yrBoe": 1320876.0,
+      "operatingCostPerBoe": 31.11,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0019",
       "avgOperatingCost": 23660.57,
-      "forecast5yrBoe": 1427973,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 0.99
+      "forecast5yrBoe": 1427973.0,
+      "operatingCostPerBoe": 30.24,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0037",
       "avgOperatingCost": 23544.43,
-      "forecast5yrBoe": 1537168,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 0.92
+      "forecast5yrBoe": 1537168.0,
+      "operatingCostPerBoe": 27.95,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0020",
       "avgOperatingCost": 22619.55,
-      "forecast5yrBoe": 1492482,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 0.91
+      "forecast5yrBoe": 1492482.0,
+      "operatingCostPerBoe": 27.66,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0017",
       "avgOperatingCost": 17996.66,
-      "forecast5yrBoe": 1201764,
-      "recommendation": "Keep",
-      "operatingCostPerBoe": 0.9
+      "forecast5yrBoe": 1201764.0,
+      "operatingCostPerBoe": 27.33,
+      "recommendation": "Keep"
     },
     {
       "wellId": "W0014",
       "avgOperatingCost": 12317.58,
-      "forecast5yrBoe": 852506,
-      "recommendation": "Invest / keep",
-      "operatingCostPerBoe": 0.87
+      "forecast5yrBoe": 852506.0,
+      "operatingCostPerBoe": 26.37,
+      "recommendation": "Invest / keep"
     },
     {
       "wellId": "W0007",
       "avgOperatingCost": 13420.04,
-      "forecast5yrBoe": 940669,
-      "recommendation": "Invest / keep",
-      "operatingCostPerBoe": 0.86
-    },
-    {
-      "wellId": "W0028",
-      "avgOperatingCost": 16099.29,
-      "forecast5yrBoe": 1259500,
-      "recommendation": "Invest / keep",
-      "operatingCostPerBoe": 0.77
+      "forecast5yrBoe": 940669.0,
+      "operatingCostPerBoe": 26.04,
+      "recommendation": "Invest / keep"
     },
     {
       "wellId": "W0006",
       "avgOperatingCost": 12709.15,
-      "forecast5yrBoe": 991972,
-      "recommendation": "Invest / keep",
-      "operatingCostPerBoe": 0.77
+      "forecast5yrBoe": 991972.0,
+      "operatingCostPerBoe": 23.38,
+      "recommendation": "Invest / keep"
+    },
+    {
+      "wellId": "W0028",
+      "avgOperatingCost": 16099.29,
+      "forecast5yrBoe": 1259500.0,
+      "operatingCostPerBoe": 23.33,
+      "recommendation": "Invest / keep"
     },
     {
       "wellId": "W0039",
       "avgOperatingCost": 14705.23,
-      "forecast5yrBoe": 1206509,
-      "recommendation": "Invest / keep",
-      "operatingCostPerBoe": 0.73
+      "forecast5yrBoe": 1206509.0,
+      "operatingCostPerBoe": 22.24,
+      "recommendation": "Invest / keep"
     }
   ],
   "decommissionOrSell": [
     {
       "wellId": "W0001",
       "avgOperatingCost": 8379.53,
-      "forecast5yrBoe": 39995,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 12.57
+      "forecast5yrBoe": 39995.0,
+      "operatingCostPerBoe": 382.36,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0015",
       "avgOperatingCost": 10133.01,
-      "forecast5yrBoe": 86077,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 7.06
+      "forecast5yrBoe": 86077.0,
+      "operatingCostPerBoe": 214.84,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0024",
       "avgOperatingCost": 9653.36,
-      "forecast5yrBoe": 85623,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 6.76
+      "forecast5yrBoe": 85623.0,
+      "operatingCostPerBoe": 205.76,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0016",
       "avgOperatingCost": 13278.91,
-      "forecast5yrBoe": 195391,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 4.08
+      "forecast5yrBoe": 195391.0,
+      "operatingCostPerBoe": 124.03,
+      "recommendation": "Decommission / sell"
     },
     {
       "wellId": "W0025",
       "avgOperatingCost": 13068.63,
-      "forecast5yrBoe": 207882,
-      "recommendation": "Decommission / sell",
-      "operatingCostPerBoe": 3.77
+      "forecast5yrBoe": 207882.0,
+      "operatingCostPerBoe": 114.73,
+      "recommendation": "Decommission / sell"
     }
   ]
 }

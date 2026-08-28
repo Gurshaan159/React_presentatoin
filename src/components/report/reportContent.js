@@ -51,8 +51,7 @@ export const questions = [
     caption:
       'Recorded monthly rate (solid) vs. fitted hyperbolic Arps forecast (dashed), five highest producers. Four sit at Wolfcamp North (S05); W0028 is at Midland Central (S03).',
     analysis: [
-      'Five wells carry most of the portfolio: W0019, W0037, W0020 and W0010 at Wolfcamp North, plus W0028 at Midland Central, each producing 930–1,060 BOE/d. Decline is orderly — near 13 percent first-year for the S05 wells, 15 percent for W0028 — leaving the group at half to two-thirds of current rate in five years.',
-      'The exposure is geographic, not the curve: four of the five best wells share one fence line, so a single outage or safety stand-down at S05 takes most of the cash flow with it.',
+      'The table ranks the portfolio’s leading wells by their recent BOE contribution, while the graph follows those same wells from recorded production into the five-year decline forecast. Read together, they show which wells support the portfolio today and how long that production is expected to remain material.',
     ],
   },
   {
@@ -114,14 +113,14 @@ export const questions = [
     number: '05',
     railLabel: 'Where to invest',
     // FINDING (scripts/q5_investment.py): tier-1 S03 infill = best ROI ($16/BOE, clean HSE).
-    // The 3 compliance-capex picks (W0020/W0033/W0027) are all also on the sell list.
+    // Focused recommendations: W0020 offset drilling/safety and W0033 workover.
     subhead: 'The upside is a drilling program at Midland Central',
     bullets: true,
     analysis: [
       {
         point: 'W0020 · Wolfcamp North',
         reasons: [
-          'One of the portfolio’s highest five-year BOE forecasts indicates strong remaining reservoir potential.',
+          'Its five-year forecast of approximately 1.49 million BOE, one of the highest in the portfolio, indicates strong remaining reservoir potential.',
           'That remaining potential makes W0020 a strong candidate for offset drilling.',
           'W0020 also has the second-highest HSE incident count in the portfolio, making safety investment a priority.',
           'Reducing incidents would protect workers and limit downtime at one of the portfolio’s highest-value wells.',
@@ -136,24 +135,6 @@ export const questions = [
           'Meaningful recoverable production and a manageable cost profile make W0033 a clear workover candidate.',
         ],
       },
-      {
-        point: 'W0027 · Alamo Sunset',
-        reasons: [
-          '~416 BOE/d, 53% margin, ~$6.6M/yr.',
-          'Water cut near 49% — inside the window where artificial lift still pays.',
-          'A tank overfill and a pad spill on record; tank automation + level control fixes the recurring cause.',
-          'Divests cleaner with no open spill history.',
-        ],
-      },
-      {
-        point: 'W0015 · Delaware Flats',
-        reasons: [
-          'Spend-to-exit, not growth — it loses money (−29% margin, 97% water cut, 44%/yr decline).',
-          'Both screens say sell or plug.',
-          'Two off-pad produced-water releases are the liability.',
-          'A water-handling workover with secondary containment clears it, so the well divests without a plugging obligation.',
-        ],
-      },
     ],
   },
 ];
@@ -165,16 +146,12 @@ export const verdict = {
   subhead: 'The Verdict',
   paragraphs: [
     {
-      text: 'Yes — ConocoPhillips should absorb Estacado, but the deal is only worth what the buyer will do about one site. Production is durable, Midland Central’s cost of supply is among the basin’s best, and the safety exposure, while serious, is concentrated and mechanical rather than diffuse.',
+      text: 'ConocoPhillips should acquire Estacado, but the deal should prioritize the wells that can sustain production and address the concentrated safety and reliability risk at Wolfcamp North.',
     },
     {
-      text: 'The program is specific. ',
-      callout: 'Sell or plug the five flagged wells — W0040, W0035, W0018, W0009 and W0030',
+      callout: 'Decommission W0001, W0015, W0024, W0016 and W0025.',
       after:
-        ' — real operating cost without the output or upside to justify it. Fund the Midland Central drilling program and the lift upgrades at Estacado Ridge and Alamo Sunset. Treat the Wolfcamp North integrity and instrumentation upgrade as a condition of closing, not a later phase.',
-    },
-    {
-      text: 'In that order, the acquisition raises production per dollar of operating cost, pulls compliance risk down by fixing it where it sits, and extends the life of the wells that matter — provided ConocoPhillips buys the problem at S05 with its eyes open.',
+        ' The cost-per-BOE and Monte Carlo screens agree that these wells are unlikely to justify continued operation. Direct new capital toward W0020’s offset-drilling potential and safety needs, and use a targeted workover to recover W0033’s reliability-constrained production.',
     },
   ],
 };
