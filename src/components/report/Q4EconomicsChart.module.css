@@ -4,7 +4,7 @@
 }
 
 .title {
-  margin: 0 0 0.9rem;
+  margin: 0 0 0.25rem;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.35;
@@ -13,7 +13,6 @@
   display: block;
   font-weight: 400;
   font-size: 0.8rem;
-  line-height: 1.45;
   color: var(--est-mute);
 }
 
@@ -29,6 +28,109 @@
   border: 0;
 }
 
+/* ---------- legend ---------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.78rem;
+  color: var(--est-slate);
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ---------- plot ---------- */
+.plotWrap {
+  position: relative;
+}
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.grid {
+  stroke: var(--est-gray-border);
+  stroke-width: 1;
+}
+.baseline {
+  stroke: var(--est-charcoal);
+  stroke-width: 1;
+}
+.axisText {
+  fill: var(--est-mute);
+  font-size: 11px;
+  font-family: var(--est-font-mono);
+}
+.leader {
+  stroke: var(--est-gray-border);
+  stroke-width: 1;
+}
+.dot {
+  stroke: var(--est-white);
+  stroke-width: 1.5;
+  cursor: pointer;
+  outline: none;
+}
+.dot:focus-visible {
+  stroke: var(--est-charcoal);
+  stroke-width: 2;
+}
+.pointLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  font-family: var(--est-font-mono);
+  pointer-events: none;
+}
+
+.tip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 10px));
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  width: max-content;
+  max-width: 14rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  background: var(--est-charcoal);
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 3;
+}
+.tip strong {
+  font-size: 0.74rem;
+  margin-bottom: 2px;
+}
+.tip span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+.tip b {
+  font-variant-numeric: tabular-nums;
+}
+.tipTag {
+  margin-top: 2px;
+  font-weight: 600;
+  color: var(--est-mute);
+}
+
+/* ---------- data tables ---------- */
 .tableScroll {
   overflow-x: auto;
 }
@@ -48,6 +150,7 @@
   width: 100%;
   min-width: 30rem;
   font-size: 0.85rem;
+  margin-top: 1.25rem;
 }
 .tableFull {
   min-width: 38rem;
@@ -125,4 +228,10 @@
 .tagInvest {
   background: color-mix(in srgb, var(--est-blue) 12%, transparent);
   color: var(--est-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart * {
+    transition: none !important;
+  }
 }

@@ -688,7 +688,7 @@ worst_5 = well_df.nsmallest(5, "Well_Score")
 
 
 # ------------------------------------------------------------
-# EXPORT JSON FOR <Q4DecommissionTable />
+# EXPORT JSON FOR <Q4EconomicsChart />
 # ------------------------------------------------------------
 
 worst_ids = set(worst_5["Well ID"])
