@@ -1,0 +1,460 @@
+{
+  "generatedBy": "scripts/carlos_daily_fixed.py",
+  "method": "10,000 seeded daily Monte Carlo realized-revenue-per-BOE paths over five years, combined with each well's Arps production decline and operating cost. Wells are ranked by probability of positive profit.",
+  "simulationCount": 10000,
+  "forecastYears": 5,
+  "startingRevenuePerBoe": 70.98,
+  "wells": [
+    {
+      "rank": 1,
+      "wellId": "W0039",
+      "probabilityProfit": 0.6889,
+      "probabilityProfitPct": 68.89,
+      "probabilityLossPct": 31.11,
+      "mean5yrProfit": 59019100.83,
+      "median5yrProfit": 60383378.46,
+      "p5_5yrProfit": -136449355.47,
+      "p95_5yrProfit": 254812801.95
+    },
+    {
+      "rank": 2,
+      "wellId": "W0006",
+      "probabilityProfit": 0.6882,
+      "probabilityProfitPct": 68.82,
+      "probabilityLossPct": 31.18,
+      "mean5yrProfit": 47369858.46,
+      "median5yrProfit": 48359214.55,
+      "p5_5yrProfit": -109600972.87,
+      "p95_5yrProfit": 204911110.18
+    },
+    {
+      "rank": 3,
+      "wellId": "W0028",
+      "probabilityProfit": 0.6875,
+      "probabilityProfitPct": 68.75,
+      "probabilityLossPct": 31.25,
+      "mean5yrProfit": 60218978.23,
+      "median5yrProfit": 61641399.34,
+      "p5_5yrProfit": -139854746.22,
+      "p95_5yrProfit": 261388810.64
+    },
+    {
+      "rank": 4,
+      "wellId": "W0007",
+      "probabilityProfit": 0.6856,
+      "probabilityProfitPct": 68.56,
+      "probabilityLossPct": 31.44,
+      "mean5yrProfit": 42378758.71,
+      "median5yrProfit": 43312319.15,
+      "p5_5yrProfit": -101075416.21,
+      "p95_5yrProfit": 186515039.7
+    },
+    {
+      "rank": 5,
+      "wellId": "W0014",
+      "probabilityProfit": 0.6852,
+      "probabilityProfitPct": 68.52,
+      "probabilityLossPct": 31.48,
+      "mean5yrProfit": 38118686.74,
+      "median5yrProfit": 39015462.55,
+      "p5_5yrProfit": -91542612.69,
+      "p95_5yrProfit": 168393385.05
+    },
+    {
+      "rank": 6,
+      "wellId": "W0017",
+      "probabilityProfit": 0.6707,
+      "probabilityProfitPct": 67.07,
+      "probabilityLossPct": 32.93,
+      "mean5yrProfit": 52699384.88,
+      "median5yrProfit": 54116303.87,
+      "p5_5yrProfit": -143089501.64,
+      "p95_5yrProfit": 249320935.71
+    },
+    {
+      "rank": 7,
+      "wellId": "W0020",
+      "probabilityProfit": 0.6696,
+      "probabilityProfitPct": 66.96,
+      "probabilityLossPct": 33.04,
+      "mean5yrProfit": 64950917.8,
+      "median5yrProfit": 66674372.04,
+      "p5_5yrProfit": -177878339.37,
+      "p95_5yrProfit": 308875144.22
+    },
+    {
+      "rank": 8,
+      "wellId": "W0037",
+      "probabilityProfit": 0.6682,
+      "probabilityProfitPct": 66.82,
+      "probabilityLossPct": 33.18,
+      "mean5yrProfit": 66438470.42,
+      "median5yrProfit": 68180539.1,
+      "p5_5yrProfit": -183383654.91,
+      "p95_5yrProfit": 317210262.51
+    },
+    {
+      "rank": 9,
+      "wellId": "W0019",
+      "probabilityProfit": 0.6637,
+      "probabilityProfitPct": 66.37,
+      "probabilityLossPct": 33.63,
+      "mean5yrProfit": 58405432.52,
+      "median5yrProfit": 59838394.32,
+      "p5_5yrProfit": -167764886.67,
+      "p95_5yrProfit": 285547391.71
+    },
+    {
+      "rank": 10,
+      "wellId": "W0010",
+      "probabilityProfit": 0.6615,
+      "probabilityProfitPct": 66.15,
+      "probabilityLossPct": 33.85,
+      "mean5yrProfit": 52859339.08,
+      "median5yrProfit": 54132553.7,
+      "p5_5yrProfit": -153796201.48,
+      "p95_5yrProfit": 260422528.21
+    },
+    {
+      "rank": 11,
+      "wellId": "W0021",
+      "probabilityProfit": 0.6049,
+      "probabilityProfitPct": 60.49,
+      "probabilityLossPct": 39.51,
+      "mean5yrProfit": 16037252.77,
+      "median5yrProfit": 16703983.25,
+      "p5_5yrProfit": -83871862.94,
+      "p95_5yrProfit": 116151565.56
+    },
+    {
+      "rank": 12,
+      "wellId": "W0023",
+      "probabilityProfit": 0.6037,
+      "probabilityProfitPct": 60.37,
+      "probabilityLossPct": 39.63,
+      "mean5yrProfit": 17770094.45,
+      "median5yrProfit": 18547833.37,
+      "p5_5yrProfit": -94000193.46,
+      "p95_5yrProfit": 129831498.99
+    },
+    {
+      "rank": 13,
+      "wellId": "W0027",
+      "probabilityProfit": 0.6004,
+      "probabilityProfitPct": 60.04,
+      "probabilityLossPct": 39.96,
+      "mean5yrProfit": 13581346.72,
+      "median5yrProfit": 14193753.0,
+      "p5_5yrProfit": -74964016.58,
+      "p95_5yrProfit": 102349159.31
+    },
+    {
+      "rank": 14,
+      "wellId": "W0008",
+      "probabilityProfit": 0.5955,
+      "probabilityProfitPct": 59.55,
+      "probabilityLossPct": 40.45,
+      "mean5yrProfit": 13790017.19,
+      "median5yrProfit": 14380054.65,
+      "p5_5yrProfit": -80004037.97,
+      "p95_5yrProfit": 107900901.05
+    },
+    {
+      "rank": 15,
+      "wellId": "W0026",
+      "probabilityProfit": 0.5835,
+      "probabilityProfitPct": 58.35,
+      "probabilityLossPct": 41.65,
+      "mean5yrProfit": 12793738.12,
+      "median5yrProfit": 13450158.3,
+      "p5_5yrProfit": -88636308.82,
+      "p95_5yrProfit": 114425133.87
+    },
+    {
+      "rank": 16,
+      "wellId": "W0035",
+      "probabilityProfit": 0.5826,
+      "probabilityProfitPct": 58.26,
+      "probabilityLossPct": 41.74,
+      "mean5yrProfit": 14360640.13,
+      "median5yrProfit": 15084712.9,
+      "p5_5yrProfit": -100889097.96,
+      "p95_5yrProfit": 129814496.59
+    },
+    {
+      "rank": 17,
+      "wellId": "W0030",
+      "probabilityProfit": 0.5817,
+      "probabilityProfitPct": 58.17,
+      "probabilityLossPct": 41.83,
+      "mean5yrProfit": 12984736.43,
+      "median5yrProfit": 13646088.04,
+      "p5_5yrProfit": -92402607.74,
+      "p95_5yrProfit": 118596204.11
+    },
+    {
+      "rank": 18,
+      "wellId": "W0005",
+      "probabilityProfit": 0.5748,
+      "probabilityProfitPct": 57.48,
+      "probabilityLossPct": 42.52,
+      "mean5yrProfit": 9751462.85,
+      "median5yrProfit": 10320741.6,
+      "p5_5yrProfit": -76325314.9,
+      "p95_5yrProfit": 96118751.73
+    },
+    {
+      "rank": 19,
+      "wellId": "W0022",
+      "probabilityProfit": 0.573,
+      "probabilityProfitPct": 57.3,
+      "probabilityLossPct": 42.7,
+      "mean5yrProfit": 9100444.95,
+      "median5yrProfit": 9597628.16,
+      "p5_5yrProfit": -73605180.23,
+      "p95_5yrProfit": 92157372.37
+    },
+    {
+      "rank": 20,
+      "wellId": "W0034",
+      "probabilityProfit": 0.5588,
+      "probabilityProfitPct": 55.88,
+      "probabilityLossPct": 44.12,
+      "mean5yrProfit": 6927532.21,
+      "median5yrProfit": 7463105.77,
+      "p5_5yrProfit": -71847995.93,
+      "p95_5yrProfit": 85898792.59
+    },
+    {
+      "rank": 21,
+      "wellId": "W0033",
+      "probabilityProfit": 0.4579,
+      "probabilityProfitPct": 45.79,
+      "probabilityLossPct": 54.21,
+      "mean5yrProfit": -3382139.51,
+      "median5yrProfit": -3050021.0,
+      "p5_5yrProfit": -54926566.18,
+      "p95_5yrProfit": 48389431.58
+    },
+    {
+      "rank": 22,
+      "wellId": "W0018",
+      "probabilityProfit": 0.445,
+      "probabilityProfitPct": 44.5,
+      "probabilityLossPct": 55.5,
+      "mean5yrProfit": -4670284.12,
+      "median5yrProfit": -4288045.23,
+      "p5_5yrProfit": -59916102.69,
+      "p95_5yrProfit": 50922636.54
+    },
+    {
+      "rank": 23,
+      "wellId": "W0003",
+      "probabilityProfit": 0.4437,
+      "probabilityProfitPct": 44.37,
+      "probabilityLossPct": 55.63,
+      "mean5yrProfit": -4112792.13,
+      "median5yrProfit": -3786138.41,
+      "p5_5yrProfit": -51749327.43,
+      "p95_5yrProfit": 43807097.62
+    },
+    {
+      "rank": 24,
+      "wellId": "W0040",
+      "probabilityProfit": 0.3366,
+      "probabilityProfitPct": 33.66,
+      "probabilityLossPct": 66.34,
+      "mean5yrProfit": -9917172.61,
+      "median5yrProfit": -9737868.19,
+      "p5_5yrProfit": -49823755.18,
+      "p95_5yrProfit": 30109823.17
+    },
+    {
+      "rank": 25,
+      "wellId": "W0009",
+      "probabilityProfit": 0.33,
+      "probabilityProfitPct": 33.0,
+      "probabilityLossPct": 67.0,
+      "mean5yrProfit": -9599504.45,
+      "median5yrProfit": -9356025.94,
+      "p5_5yrProfit": -46312323.88,
+      "p95_5yrProfit": 27271509.33
+    },
+    {
+      "rank": 26,
+      "wellId": "W0025",
+      "probabilityProfit": 0.3169,
+      "probabilityProfitPct": 31.69,
+      "probabilityLossPct": 68.31,
+      "mean5yrProfit": -9080358.85,
+      "median5yrProfit": -8855462.33,
+      "p5_5yrProfit": -41054616.81,
+      "p95_5yrProfit": 22985379.33
+    },
+    {
+      "rank": 27,
+      "wellId": "W0016",
+      "probabilityProfit": 0.2741,
+      "probabilityProfitPct": 27.41,
+      "probabilityLossPct": 72.59,
+      "mean5yrProfit": -10360802.05,
+      "median5yrProfit": -10184027.57,
+      "p5_5yrProfit": -39527494.2,
+      "p95_5yrProfit": 18998063.01
+    },
+    {
+      "rank": 28,
+      "wellId": "W0024",
+      "probabilityProfit": 0.0716,
+      "probabilityProfitPct": 7.16,
+      "probabilityLossPct": 92.84,
+      "mean5yrProfit": -11537898.03,
+      "median5yrProfit": -11446019.79,
+      "p5_5yrProfit": -24447252.88,
+      "p95_5yrProfit": 1470479.99
+    },
+    {
+      "rank": 29,
+      "wellId": "W0015",
+      "probabilityProfit": 0.0574,
+      "probabilityProfitPct": 5.74,
+      "probabilityLossPct": 94.26,
+      "mean5yrProfit": -12383441.41,
+      "median5yrProfit": -12300031.88,
+      "p5_5yrProfit": -25190624.59,
+      "p95_5yrProfit": 492964.47
+    },
+    {
+      "rank": 30,
+      "wellId": "W0001",
+      "probabilityProfit": 0.0002,
+      "probabilityProfitPct": 0.02,
+      "probabilityLossPct": 99.98,
+      "mean5yrProfit": -12455704.14,
+      "median5yrProfit": -12421012.81,
+      "p5_5yrProfit": -18340908.5,
+      "p95_5yrProfit": -6539815.77
+    }
+  ],
+  "highest5": [
+    {
+      "rank": 1,
+      "wellId": "W0039",
+      "probabilityProfit": 0.6889,
+      "probabilityProfitPct": 68.89,
+      "probabilityLossPct": 31.11,
+      "mean5yrProfit": 59019100.83,
+      "median5yrProfit": 60383378.46,
+      "p5_5yrProfit": -136449355.47,
+      "p95_5yrProfit": 254812801.95
+    },
+    {
+      "rank": 2,
+      "wellId": "W0006",
+      "probabilityProfit": 0.6882,
+      "probabilityProfitPct": 68.82,
+      "probabilityLossPct": 31.18,
+      "mean5yrProfit": 47369858.46,
+      "median5yrProfit": 48359214.55,
+      "p5_5yrProfit": -109600972.87,
+      "p95_5yrProfit": 204911110.18
+    },
+    {
+      "rank": 3,
+      "wellId": "W0028",
+      "probabilityProfit": 0.6875,
+      "probabilityProfitPct": 68.75,
+      "probabilityLossPct": 31.25,
+      "mean5yrProfit": 60218978.23,
+      "median5yrProfit": 61641399.34,
+      "p5_5yrProfit": -139854746.22,
+      "p95_5yrProfit": 261388810.64
+    },
+    {
+      "rank": 4,
+      "wellId": "W0007",
+      "probabilityProfit": 0.6856,
+      "probabilityProfitPct": 68.56,
+      "probabilityLossPct": 31.44,
+      "mean5yrProfit": 42378758.71,
+      "median5yrProfit": 43312319.15,
+      "p5_5yrProfit": -101075416.21,
+      "p95_5yrProfit": 186515039.7
+    },
+    {
+      "rank": 5,
+      "wellId": "W0014",
+      "probabilityProfit": 0.6852,
+      "probabilityProfitPct": 68.52,
+      "probabilityLossPct": 31.48,
+      "mean5yrProfit": 38118686.74,
+      "median5yrProfit": 39015462.55,
+      "p5_5yrProfit": -91542612.69,
+      "p95_5yrProfit": 168393385.05
+    }
+  ],
+  "lowest5": [
+    {
+      "rank": 30,
+      "wellId": "W0001",
+      "probabilityProfit": 0.0002,
+      "probabilityProfitPct": 0.02,
+      "probabilityLossPct": 99.98,
+      "mean5yrProfit": -12455704.14,
+      "median5yrProfit": -12421012.81,
+      "p5_5yrProfit": -18340908.5,
+      "p95_5yrProfit": -6539815.77
+    },
+    {
+      "rank": 29,
+      "wellId": "W0015",
+      "probabilityProfit": 0.0574,
+      "probabilityProfitPct": 5.74,
+      "probabilityLossPct": 94.26,
+      "mean5yrProfit": -12383441.41,
+      "median5yrProfit": -12300031.88,
+      "p5_5yrProfit": -25190624.59,
+      "p95_5yrProfit": 492964.47
+    },
+    {
+      "rank": 28,
+      "wellId": "W0024",
+      "probabilityProfit": 0.0716,
+      "probabilityProfitPct": 7.16,
+      "probabilityLossPct": 92.84,
+      "mean5yrProfit": -11537898.03,
+      "median5yrProfit": -11446019.79,
+      "p5_5yrProfit": -24447252.88,
+      "p95_5yrProfit": 1470479.99
+    },
+    {
+      "rank": 27,
+      "wellId": "W0016",
+      "probabilityProfit": 0.2741,
+      "probabilityProfitPct": 27.41,
+      "probabilityLossPct": 72.59,
+      "mean5yrProfit": -10360802.05,
+      "median5yrProfit": -10184027.57,
+      "p5_5yrProfit": -39527494.2,
+      "p95_5yrProfit": 18998063.01
+    },
+    {
+      "rank": 26,
+      "wellId": "W0025",
+      "probabilityProfit": 0.3169,
+      "probabilityProfitPct": 31.69,
+      "probabilityLossPct": 68.31,
+      "mean5yrProfit": -9080358.85,
+      "median5yrProfit": -8855462.33,
+      "p5_5yrProfit": -41054616.81,
+      "p95_5yrProfit": 22985379.33
+    }
+  ],
+  "decommissionWellIds": [
+    "W0025",
+    "W0016",
+    "W0024",
+    "W0015",
+    "W0001"
+  ]
+}

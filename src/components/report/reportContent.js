@@ -2,7 +2,6 @@ import { Q3HseRiskChart } from './vizSlots.jsx';
 import Q1DeclineChart from './Q1DeclineChart.jsx';
 import Q2EfficiencyChart from './Q2EfficiencyChart.jsx';
 import Q4EconomicsChart from './Q4EconomicsChart.jsx';
-import Q5InvestmentTable from './Q5InvestmentTable.jsx';
 import heroImage from '../../assets/exploration-and-drilling.jpg';
 import hseImage from '../../assets/hse-rig-incident.jpg';
 
@@ -93,17 +92,16 @@ export const questions = [
     id: 'q4',
     number: '04',
     railLabel: 'What to shed',
-    // FINDING (scripts/finance.py): 50/50 blend of 5yr-forecast BOE + mean operating cost,
-    // min-max normalized. Bottom 5 = W0040, W0035, W0018, W0009, W0030.
-    subhead: 'Five wells that are neither cheap enough nor productive enough to keep',
+    // FINDING: Monte Carlo bottom 5 = W0001, W0015, W0024, W0016, W0025.
+    subhead: 'Five wells cost too much per barrel and are unlikely to turn a profit',
     leadIn:
-      'Safety and margin set aside: five-year forecast volume against cost to run.',
+      'The cost screen and 10,000 simulated price paths point to the same decommission list.',
     Visual: Q4EconomicsChart,
     caption:
-      'Each well’s five-year forecast BOE against mean monthly operating cost. Labelled points are the 5 lowest (teal) and 5 highest (rust) on operating cost per forecast barrel — the slope from the origin. 30 of 40 wells are scored, the rest shut-in with no operating history.',
+      'The first graph compares operating cost with five-year forecast BOE; the simulation below estimates each well’s probability of producing a positive five-year profit.',
     analysis: [
-      'W0040, W0009 and W0018 are flagged for thin forecast volume — under 360,000 BOE over five years — and W0035 and W0030 for cost: they still produce 650,000–720,000 BOE but run $18,500–$20,000 a month, near the top of the field.',
-      'The big producers (W0037, W0020, W0019) score only mid-pack because they are also the most expensive to operate; the cheapest wells (W0001, W0024) are nearly dead on volume. The shortlist is the wells caught between — real cost, unremarkable output, no case for fresh capital.',
+      'Decommission the five bottom-ranked wells. The earlier graph shows that their forecast production is too small to absorb their operating costs, leaving them with the portfolio’s highest operating cost per expected barrel.',
+      'The Monte Carlo results confirm that weakness across a wide range of future price conditions. These wells repeatedly fail to generate a positive return, so continued operation is not economically justified.',
     ],
   },
   {
@@ -113,28 +111,24 @@ export const questions = [
     // FINDING (scripts/q5_investment.py): tier-1 S03 infill = best ROI ($16/BOE, clean HSE).
     // The 3 compliance-capex picks (W0020/W0033/W0027) are all also on the sell list.
     subhead: 'The upside is a drilling program at Midland Central',
-    leadIn:
-      'The cleanest returns are the tier-1 Midland Central infill wells in the table below. These four are a narrower case — each still earns, and each carries a compliance problem capital can close before the well is sold.',
-    Visual: Q5InvestmentTable,
-    caption:
-      'The three compliance-capex picks plus the weak case (W0015), with the incident record behind each intervention. Full 23-well screen inside.',
     bullets: true,
     analysis: [
       {
         point: 'W0020 · Wolfcamp North',
         reasons: [
-          'Third-largest producer in the field, ~1,027 BOE/d.',
-          '~$20M/yr profit at a $21/BOE lift cost — comfortably economic.',
-          'Record shows a compressor fire and three flare-permit breaches.',
-          'Flare-gas recovery + compressor reliability closes an active permit problem, so the well can divest without a plugging obligation.',
+          'One of the portfolio’s highest five-year BOE forecasts indicates strong remaining reservoir potential.',
+          'That remaining potential makes W0020 a strong candidate for offset drilling.',
+          'W0020 also has the second-highest HSE incident count in the portfolio, making safety investment a priority.',
+          'Reducing incidents would protect workers and limit downtime at one of the portfolio’s highest-value wells.',
         ],
       },
       {
         point: 'W0033 · Andrews Legacy',
         reasons: [
-          '~271 BOE/d and declining ~29%/yr, but still cash-positive at ~$2.7M/yr.',
-          'Two flare-permit breaches and a compressor fire on record.',
-          'Flare-gas recovery is a modest spend that slows flared-gas losses and clears the compliance flag before the well is marketed.',
+          'Expected annual production is about 112.6 kBOE, but reliability-adjusted production is only about 98.0 kBOE.',
+          'Its IoT reliability score of 0.870 creates a recoverable production gap of roughly 14.6 kBOE per year.',
+          'Operating cost remains moderate relative to the portfolio, so unusually high day-to-day costs are not the underlying problem.',
+          'Meaningful recoverable production and a manageable cost profile make W0033 a clear workover candidate.',
         ],
       },
       {

@@ -34,12 +34,14 @@ function ArticleSection({ id, number, subhead, image, leadIn, caption, analysis,
         </figure>
       ) : null}
 
-      <p className={styles.leadIn}>{leadIn}</p>
+      {leadIn ? <p className={styles.leadIn}>{leadIn}</p> : null}
 
-      <figure className={styles.figure}>
-        <Visual />
-        <figcaption className={styles.caption}>{caption}</figcaption>
-      </figure>
+      {Visual ? (
+        <figure className={styles.figure}>
+          <Visual />
+          {caption ? <figcaption className={styles.caption}>{caption}</figcaption> : null}
+        </figure>
+      ) : null}
 
       <div className={styles.analysis}>
         {bullets ? (

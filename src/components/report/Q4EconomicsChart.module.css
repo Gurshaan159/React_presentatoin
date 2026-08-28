@@ -136,6 +136,69 @@
   color: var(--est-mute);
 }
 
+/* ---------- Monte Carlo ---------- */
+.monteCarlo {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--est-gray-border);
+}
+.monteFigure {
+  margin: 0.75rem 0 0;
+}
+.monteImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--est-gray-border);
+  background: var(--est-white);
+}
+.monteFigure figcaption {
+  margin-top: 0.5rem;
+  color: var(--est-mute);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+.monteFigure code {
+  font-family: var(--est-font-mono);
+}
+.rankings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.probabilityGroup h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
+}
+.probabilityTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.probabilityTable th,
+.probabilityTable td {
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid var(--est-gray-border);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.probabilityTable th:first-child {
+  text-align: left;
+}
+.probabilityTable thead th {
+  color: var(--est-mute);
+  font-size: 0.65rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.bestProbability {
+  color: var(--est-blue);
+}
+.worstProbability {
+  color: var(--est-viz-decommission);
+}
+
 /* ---------- data tables ---------- */
 .tableScroll {
   overflow-x: auto;
@@ -239,5 +302,11 @@
 @media (prefers-reduced-motion: reduce) {
   .chart * {
     transition: none !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .rankings {
+    grid-template-columns: 1fr;
   }
 }

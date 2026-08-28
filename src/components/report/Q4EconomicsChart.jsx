@@ -1,5 +1,7 @@
 import { useId, useState } from 'react';
 import data from '../../Data/q4_well_economics.json';
+import monteCarlo from '../../Data/q4_monte_carlo.json';
+import monteCarloPaths from '../../assets/q4_monte_carlo_paths.png';
 import styles from './Q4EconomicsChart.module.css';
 
 /**
@@ -7,32 +9,32 @@ import styles from './Q4EconomicsChart.module.css';
  *
  * Data is generated at build time by scripts/finance.py from the raw
  * production.csv + financial_estacado.json (not the cleaned/ copies). Each well
- * gets a 5-year hyperbolic-forecast BOE and a mean monthly operating cost; both
- * are min-max normalized (more production = better, lower cost = better) and
- * blended 50/50 into a well score. The five lowest scores are flagged, the five
- * highest are the invest shortlist.
+ * gets a 5-year hyperbolic-forecast BOE and a mean monthly operating cost. The
+ * ranking is the direct five-year operating-cost / forecast-BOE ratio. The five
+ * highest $/BOE wells are flagged and the five lowest are the invest shortlist.
  *
  * 30 of the 40 wells are scored here; the other 10 are shut-in with no
  * operating history and fall outside the screen.
  *
  * Encoding: scatter, one point per well — x = 5-yr forecast BOE, y = avg.
  * monthly operating cost. Colour = screen result (decommission / invest /
- * keep), matching the table's tag colours below.
- *
- * Direct labels mark the 5 best and 5 worst wells on cost per forecast barrel
- * (finance.py `ratioGroup` = avg monthly cost x 60 / forecast BOE — the slope
- * from the origin to each point). Best in teal, worst in rust.
+ * keep), matching the table's tag colours below. Only the ten flagged wells
+ * get a direct label; the rest are reachable by hover/focus or in the table.
  */
-const WELLS = data.wells; // ranked worst -> best by finance.py
-const FLAGGED = data.decommissionOrSell;
+const DECOMMISSION_IDS = new Set(monteCarlo.decommissionWellIds);
+const INVEST_IDS = new Set(monteCarlo.highest5.map((w) => w.wellId));
+const WELLS = data.wells.map((well) => ({
+  ...well,
+  recommendation: DECOMMISSION_IDS.has(well.wellId)
+    ? 'Decommission / sell'
+    : INVEST_IDS.has(well.wellId)
+      ? 'Invest / keep'
+      : 'Keep',
+}));
 
 const fmtBoe = (n) => (n == null ? '—' : Math.round(n).toLocaleString('en-US'));
 const fmtCost = (n) => `$${Math.round(n).toLocaleString('en-US')}`;
-const fmtScore = (n) => (n == null ? '—' : n.toFixed(2));
-const fmtRatio = (n) => (n == null ? '—' : `$${n.toFixed(2)}/BOE`);
-
-const ratioColor = (g) =>
-  g === 'worst' ? 'var(--est-viz-decommission)' : 'var(--est-viz-series-2)';
+const fmtRatio = (n) => (n == null ? '—' : `$${n.toFixed(2)}`);
 
 function groupOf(reco) {
   if (reco === 'Decommission / sell') return 'sell';
@@ -78,17 +80,8 @@ const POINTS = WELLS.filter((w) => w.forecast5yrBoe != null).map((w) => {
   };
 });
 
-// Worst-ratio wells cluster in the lower-left; drop their labels below the dot
-// into open space. Best-ratio wells sit along the right; keep labels above.
 const LABELS = dodgeLabels(
-  POINTS.filter((p) => p.ratioGroup).map((p) => ({
-    id: p.wellId,
-    ratioGroup: p.ratioGroup,
-    ax: p.px,
-    ay: p.py,
-    lx: p.px,
-    ly: p.ratioGroup === 'worst' ? p.py + 16 : p.py - 12,
-  })),
+  POINTS.filter((p) => p.group !== 'keep').map((p) => ({ id: p.wellId, lx: p.px, ly: p.py - 10 })),
 );
 
 function Q4EconomicsChart() {
@@ -100,10 +93,7 @@ function Q4EconomicsChart() {
     <div className={styles.chart} role="group" aria-labelledby={titleId}>
       <p id={titleId} className={styles.title}>
         Five-year forecast volume vs. operating cost, all 30 scored wells
-        <span className={styles.unit}>
-          x: 5-yr forecast BOE · y: avg. operating cost per month · labels: 5 best / 5 worst on
-          cost per forecast barrel
-        </span>
+        <span className={styles.unit}>x: 5-yr forecast BOE · y: avg. operating cost per month</span>
       </p>
 
       <div className={styles.legend} aria-hidden="true">
@@ -111,16 +101,10 @@ function Q4EconomicsChart() {
           <span className={styles.swatch} style={{ background: groupColor('sell') }} /> Decommission / sell
         </span>
         <span className={styles.legendItem}>
-          <span className={styles.swatch} style={{ background: groupColor('invest') }} /> Invest / keep
+          <span className={styles.swatch} style={{ background: groupColor('invest') }} /> Top performers
         </span>
         <span className={styles.legendItem}>
           <span className={styles.swatch} style={{ background: groupColor('keep') }} /> Keep
-        </span>
-        <span className={styles.legendItem}>
-          <span className={styles.labelSwatch} style={{ color: ratioColor('best') }}>W—</span> lowest $/BOE
-        </span>
-        <span className={styles.legendItem}>
-          <span className={styles.labelSwatch} style={{ color: ratioColor('worst') }}>W—</span> highest $/BOE
         </span>
       </div>
 
@@ -153,15 +137,17 @@ function Q4EconomicsChart() {
           <line className={styles.baseline} x1={PLOT.x0} x2={PLOT.x1} y1={PLOT.y1} y2={PLOT.y1} />
           <line className={styles.baseline} x1={PLOT.x0} x2={PLOT.x0} y1={PLOT.y0} y2={PLOT.y1} />
 
-          {/* leader lines from each dot to its dodged label */}
+          {/* leader lines for dodged labels */}
           {LABELS.map((l) => {
-            if (Math.hypot(l.lx - l.ax, l.ly - l.ay) < 12) return null;
+            const p = POINTS.find((pt) => pt.wellId === l.id);
+            const dy = Math.abs(l.ly - (p.py - 10));
+            if (dy < 1) return null;
             return (
               <line
                 key={`leader-${l.id}`}
                 className={styles.leader}
-                x1={l.ax}
-                y1={l.ay}
+                x1={p.px}
+                y1={p.py}
                 x2={l.lx}
                 y2={l.ly}
               />
@@ -170,7 +156,7 @@ function Q4EconomicsChart() {
 
           {/* points */}
           {POINTS.map((p) => {
-            const r = p.ratioGroup ? 7 : 5;
+            const r = p.group === 'keep' ? 5 : 7;
             const on = hoveredId === p.wellId;
             return (
               <circle
@@ -188,15 +174,13 @@ function Q4EconomicsChart() {
                 aria-label={
                   `${p.wellId}: ${fmtBoe(p.forecast5yrBoe)} BOE 5-yr forecast, ` +
                   `${fmtCost(p.avgOperatingCost)} avg. monthly operating cost, ` +
-                  `${fmtRatio(p.costPerForecastBoe)} over the forecast` +
-                  `${p.ratioGroup ? ` (${p.ratioGroup === 'best' ? '5 lowest' : '5 highest'})` : ''}, ` +
-                  `${p.recommendation}`
+                  `${fmtRatio(p.operatingCostPerBoe)} per BOE, ${p.recommendation}`
                 }
               />
             );
           })}
 
-          {/* direct labels — 5 best / 5 worst on cost per forecast barrel */}
+          {/* direct labels — flagged wells only */}
           {LABELS.map((l) => {
             const p = POINTS.find((pt) => pt.wellId === l.id);
             return (
@@ -206,11 +190,9 @@ function Q4EconomicsChart() {
                 x={l.lx + 6}
                 y={l.ly}
                 dy="0.32em"
-                fill={ratioColor(l.ratioGroup)}
-                fontWeight={l.ratioGroup === 'worst' ? 700 : 600}
+                fill={p.color}
               >
                 {l.id}
-                <title>{`${l.id} — ${fmtRatio(p.costPerForecastBoe)} (${l.ratioGroup === 'best' ? '5 lowest' : '5 highest'})`}</title>
               </text>
             );
           })}
@@ -233,28 +215,88 @@ function Q4EconomicsChart() {
               Avg. op. cost <b>{fmtCost(hovered.avgOperatingCost)}</b>
             </span>
             <span>
-              Cost / forecast BOE{' '}
-              <b>
-                {fmtRatio(hovered.costPerForecastBoe)}
-                {hovered.ratioGroup
-                  ? ` · ${hovered.ratioGroup === 'best' ? '5 lowest' : '5 highest'}`
-                  : ''}
-              </b>
-            </span>
-            <span>
-              Well score <b>{fmtScore(hovered.wellScore)}</b>
+              Operating cost / BOE <b>{fmtRatio(hovered.operatingCostPerBoe)}</b>
             </span>
             <span className={styles.tipTag}>{hovered.recommendation}</span>
           </div>
         ) : null}
       </div>
 
-      <Table rows={FLAGGED} caption="The five wells flagged for decommission or sale." />
+      <MonteCarloResults />
 
       <details className={styles.details}>
         <summary>Show all 30 scored wells</summary>
-        <Table rows={WELLS} full caption="All 30 scored wells, ranked worst to best." />
+        <Table rows={WELLS} full caption="All 30 scored wells, ranked highest to lowest operating cost per BOE." />
       </details>
+    </div>
+  );
+}
+
+function MonteCarloResults() {
+  return (
+    <section className={styles.monteCarlo} aria-labelledby="monte-carlo-title">
+      <p id="monte-carlo-title" className={styles.title}>
+        Five-year Monte Carlo realized revenue per BOE
+        <span className={styles.unit}>
+          {monteCarlo.simulationCount.toLocaleString('en-US')} daily price paths · starting at{' '}
+          {fmtCost(monteCarlo.startingRevenuePerBoe)} per BOE
+        </span>
+      </p>
+
+      <figure className={styles.monteFigure}>
+        <img
+          className={styles.monteImage}
+          src={monteCarloPaths}
+          alt="Ten thousand simulated daily realized-revenue-per-BOE paths over five years, spreading from about 71 dollars per BOE."
+        />
+        <figcaption>
+          Seeded daily simulations from <code>carlos_daily_fixed.py</code>. Each well combines these
+          price paths with its forecast decline and operating cost.
+        </figcaption>
+      </figure>
+
+      <div className={styles.rankings}>
+        <ProbabilityTable
+          title="Highest probability of profit"
+          rows={monteCarlo.highest5}
+          type="best"
+        />
+        <ProbabilityTable
+          title="Lowest probability — decommission"
+          rows={monteCarlo.lowest5}
+          type="worst"
+        />
+      </div>
+    </section>
+  );
+}
+
+function ProbabilityTable({ title, rows, type }) {
+  return (
+    <div className={styles.probabilityGroup}>
+      <h3>{title}</h3>
+      <table className={styles.probabilityTable}>
+        <thead>
+          <tr>
+            <th scope="col">Well</th>
+            <th scope="col">Rank</th>
+            <th scope="col">Probability profitable</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((well) => (
+            <tr key={well.wellId} className={type === 'worst' ? styles.flaggedRow : undefined}>
+              <th scope="row">{well.wellId}</th>
+              <td>{well.rank}</td>
+              <td>
+                <strong className={type === 'best' ? styles.bestProbability : styles.worstProbability}>
+                  {well.probabilityProfitPct.toFixed(2)}%
+                </strong>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -269,9 +311,7 @@ function Table({ rows, full, caption }) {
             <th scope="col">Well</th>
             <th scope="col">5-yr BOE</th>
             <th scope="col">Avg op. cost / mo</th>
-            {full ? <th scope="col">Prod.</th> : null}
-            {full ? <th scope="col">Cost</th> : null}
-            <th scope="col">Well score</th>
+            <th scope="col">Operating cost / BOE</th>
             <th scope="col">Screen result</th>
           </tr>
         </thead>
@@ -283,11 +323,7 @@ function Table({ rows, full, caption }) {
                 <th scope="row">{w.wellId}</th>
                 <td>{fmtBoe(w.forecast5yrBoe)}</td>
                 <td>{fmtCost(w.avgOperatingCost)}</td>
-                {full ? <td>{fmtScore(w.productionScore)}</td> : null}
-                {full ? <td>{fmtScore(w.costScore)}</td> : null}
-                <td>
-                  <ScoreCell value={w.wellScore} />
-                </td>
+                <td>{fmtRatio(w.operatingCostPerBoe)}</td>
                 <td>
                   <span className={`${styles.tag} ${recoClass(w.recommendation)}`}>
                     {w.recommendation}
@@ -299,17 +335,6 @@ function Table({ rows, full, caption }) {
         </tbody>
       </table>
     </div>
-  );
-}
-
-function ScoreCell({ value }) {
-  return (
-    <span className={styles.scoreCell}>
-      <span className={styles.scoreTrack}>
-        <span className={styles.scoreBar} style={{ width: `${(value ?? 0) * 100}%` }} />
-      </span>
-      <span className={styles.scoreNum}>{fmtScore(value)}</span>
-    </span>
   );
 }
 
@@ -339,7 +364,7 @@ function fmtAxisCost(v) {
   return `$${v}`;
 }
 // Nudge overlapping direct labels apart, keeping a leader line back to the dot.
-function dodgeLabels(labels, minDist = 46, iterations = 120) {
+function dodgeLabels(labels, minDist = 34, iterations = 60) {
   const out = labels.map((l) => ({ ...l }));
   for (let iter = 0; iter < iterations; iter += 1) {
     let moved = false;

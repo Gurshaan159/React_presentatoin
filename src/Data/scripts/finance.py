@@ -657,59 +657,19 @@ else:
 # ============================================================
 
 # ------------------------------------------------------------
-# NORMALIZED WELL SCORE
+# OPERATING COST PER FORECAST BOE
 # ------------------------------------------------------------
 
-# Higher production = better
-well_df["Production_Score"] = (
-    well_df["Forecast_5yr_BOE"] - well_df["Forecast_5yr_BOE"].min()
-) / (
-    well_df["Forecast_5yr_BOE"].max() - well_df["Forecast_5yr_BOE"].min()
+# Five years of monthly operating cost divided by five-year forecast volume.
+# Lower $/BOE is better.
+well_df["Operating_Cost_Per_BOE"] = (
+    well_df["Avg_Operating_Cost"] * 60
+    / well_df["Forecast_5yr_BOE"]
 )
 
-# Lower operating cost = better
-well_df["Cost_Score"] = 1 - (
-    (
-        well_df["Avg_Operating_Cost"] - well_df["Avg_Operating_Cost"].min()
-    ) / (
-        well_df["Avg_Operating_Cost"].max() - well_df["Avg_Operating_Cost"].min()
-    )
-)
-
-# Equal weighting
-well_df["Well_Score"] = (
-    0.5 * well_df["Production_Score"]
-    + 0.5 * well_df["Cost_Score"]
-)
-
-# Best and worst 5
-best_5 = well_df.nlargest(5, "Well_Score")
-worst_5 = well_df.nsmallest(5, "Well_Score")
-
-# ------------------------------------------------------------
-# COST-TO-BOE RATIO
-# Operating dollars per barrel over the 5-year forecast window
-# (mean monthly cost x 60 months / forecast BOE). This is the slope from
-# the origin to each point on the BOE-vs-cost scatter.
-# ------------------------------------------------------------
-well_df["Cost_Per_Forecast_BOE"] = (
-    well_df["Avg_Operating_Cost"] * 60.0 / well_df["Forecast_5yr_BOE"]
-)
-
-_ratio_ranked = (
-    well_df.dropna(subset=["Cost_Per_Forecast_BOE"])
-    .sort_values("Cost_Per_Forecast_BOE")
-)
-best_ratio_ids = set(_ratio_ranked.head(5)["Well ID"])   # cheapest $/BOE
-worst_ratio_ids = set(_ratio_ranked.tail(5)["Well ID"])  # dearest $/BOE
-
-
-def _ratio_group(wid):
-    if wid in best_ratio_ids:
-        return "best"
-    if wid in worst_ratio_ids:
-        return "worst"
-    return None
+# Best and worst 5 by the direct cost-to-production ratio.
+best_5 = well_df.nsmallest(5, "Operating_Cost_Per_BOE")
+worst_5 = well_df.nlargest(5, "Operating_Cost_Per_BOE")
 
 
 # ------------------------------------------------------------
@@ -728,7 +688,7 @@ def _reco(wid):
     return "Keep"
 
 
-ranked = well_df.sort_values("Well_Score").reset_index(drop=True)
+ranked = well_df.sort_values("Operating_Cost_Per_BOE", ascending=False).reset_index(drop=True)
 
 rows_out = []
 for _, r in ranked.iterrows():
@@ -738,36 +698,21 @@ for _, r in ranked.iterrows():
         "forecast5yrBoe": (
             None if pd.isna(r["Forecast_5yr_BOE"]) else round(float(r["Forecast_5yr_BOE"]), 0)
         ),
-        "productionScore": (
-            None if pd.isna(r["Production_Score"]) else round(float(r["Production_Score"]), 4)
-        ),
-        "costScore": (
-            None if pd.isna(r["Cost_Score"]) else round(float(r["Cost_Score"]), 4)
-        ),
-        "wellScore": (
-            None if pd.isna(r["Well_Score"]) else round(float(r["Well_Score"]), 4)
+        "operatingCostPerBoe": (
+            None if pd.isna(r["Operating_Cost_Per_BOE"]) else round(float(r["Operating_Cost_Per_BOE"]), 2)
         ),
         "recommendation": _reco(r["Well ID"]),
-        "costPerForecastBoe": (
-            None if pd.isna(r["Cost_Per_Forecast_BOE"])
-            else round(float(r["Cost_Per_Forecast_BOE"]), 2)
-        ),
-        "ratioGroup": _ratio_group(r["Well ID"]),  # "best" | "worst" | None
     })
 
 payload = {
     "generatedBy": "scripts/finance.py",
     "method": (
-        "Per-well 5-year hyperbolic-forecast BOE and mean operating cost, each "
-        "min-max normalized (production up = better, cost down = better), combined "
-        "50/50 into Well_Score. Bottom 5 flagged for decommission/sale. "
-        "costPerForecastBoe = mean monthly cost x 60 / forecast BOE; ratioGroup "
-        "marks the 5 lowest (best) and 5 highest (worst) on that ratio."
+        "Per-well five-year operating cost (mean monthly cost times 60) divided "
+        "by five-year hyperbolic-forecast BOE. Lower cost per BOE is better; the "
+        "five highest-ratio wells are flagged for decommission/sale."
     ),
     "wells": rows_out,
     "decommissionOrSell": [w for w in rows_out if w["recommendation"] == "Decommission / sell"],
-    "lowestCostPerBoe": [w for w in rows_out if w["ratioGroup"] == "best"],
-    "highestCostPerBoe": [w for w in rows_out if w["ratioGroup"] == "worst"],
 }
 OUT_PATH.write_text(json.dumps(payload, indent=2))
 print(f"\nWrote {OUT_PATH}  ({len(rows_out)} wells)")

@@ -2,6 +2,9 @@ import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
 from pathlib import Path
+import json
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 
@@ -9,7 +12,9 @@ import matplotlib.pyplot as plt
 # LOAD DATA
 # ============================================================
 
-DATA_DIR = Path(__file__).resolve().parent
+DATA_DIR = Path(__file__).resolve().parents[1]
+CHART_PATH = DATA_DIR.parent / "assets" / "q4_monte_carlo_paths.png"
+RESULTS_PATH = DATA_DIR / "q4_monte_carlo.json"
 
 production = pd.read_csv(
     DATA_DIR / "production.csv"
@@ -762,7 +767,7 @@ plot_prices = simulated_prices[1:, :]
 # Pick 1000 random simulation columns
 num_to_plot = min(1000, plot_prices.shape[1])
 
-random_indices = np.random.choice(
+random_indices = rng.choice(
     plot_prices.shape[1],
     size=num_to_plot,
     replace=False
@@ -778,8 +783,17 @@ for i in random_indices:
         linewidth=0.5
     )
 
+plt.xlabel("Forecast date")
+plt.ylabel("Simulated realized revenue per BOE ($/BOE)")
 plt.tight_layout()
-plt.show()
+plt.savefig(
+    CHART_PATH,
+    dpi=160,
+    bbox_inches="tight",
+    facecolor="white"
+)
+plt.close()
+print(f"Saved Monte Carlo chart to {CHART_PATH}")
 # ============================================================
 # PROBABILITY OF PROFIT FOR EACH WELL
 # ============================================================
@@ -1120,3 +1134,43 @@ print(
         index=False
     )
 )
+
+
+# ============================================================
+# EXPORT RANKINGS FOR THE REACT Q4 SECTION
+# ============================================================
+
+rank_rows = []
+for _, row in profitability_df.iterrows():
+    rank_rows.append(
+        {
+            "rank": int(row["Rank"]),
+            "wellId": row["Well ID"],
+            "probabilityProfit": round(float(row["Probability_Profit"]), 4),
+            "probabilityProfitPct": float(row["Probability_Profit_Pct"]),
+            "probabilityLossPct": float(row["Probability_Loss_Pct"]),
+            "mean5yrProfit": float(row["Mean_5yr_Profit"]),
+            "median5yrProfit": float(row["Median_5yr_Profit"]),
+            "p5_5yrProfit": float(row["P5_5yr_Profit"]),
+            "p95_5yrProfit": float(row["P95_5yr_Profit"]),
+        }
+    )
+
+payload = {
+    "generatedBy": "scripts/carlos_daily_fixed.py",
+    "method": (
+        "10,000 seeded daily Monte Carlo realized-revenue-per-BOE paths over "
+        "five years, combined with each well's Arps production decline and "
+        "operating cost. Wells are ranked by probability of positive profit."
+    ),
+    "simulationCount": NUM_SIMULATIONS,
+    "forecastYears": FORECAST_YEARS,
+    "startingRevenuePerBoe": round(float(starting_price), 2),
+    "wells": rank_rows,
+    "highest5": rank_rows[:5],
+    "lowest5": rank_rows[-5:][::-1],
+    "decommissionWellIds": [row["wellId"] for row in rank_rows[-5:]],
+}
+
+RESULTS_PATH.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+print(f"Saved Monte Carlo rankings to {RESULTS_PATH}")
