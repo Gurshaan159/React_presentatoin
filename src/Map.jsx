@@ -204,7 +204,7 @@ export default function Map() {
               <table style={styles.table}>
                 <thead>
                   <tr>
-                    {['Well ID', 'Days', 'Avg Oil (bbl)', 'Avg Gas (mcf)', 'Avg Water (bbl)', 'Avg BOE (bbl)'].map((h) => (
+                    {['Well ID', 'Avg Oil (bbl)', 'Avg Gas (mcf)', 'Avg Water (bbl)', 'Avg BOE (bbl)'].map((h) => (
                       <th key={h} style={styles.th}>{h}</th>
                     ))}
                   </tr>
@@ -218,7 +218,6 @@ export default function Map() {
                         {isTop && <span title="Highest-incident well" style={styles.star}>&#9733; </span>}
                         {w.well}
                       </td>
-                      <td style={styles.td}>{w.days}</td>
                       <td style={styles.td}>{w.oil}</td>
                       <td style={styles.td}>{w.gas}</td>
                       <td style={styles.td}>{w.water}</td>
