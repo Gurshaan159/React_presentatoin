@@ -17,16 +17,8 @@ function Slot({ name, kind }) {
   );
 }
 
-export function Q1DeclineChart() {
-  return <Slot name="Q1DeclineChart" kind="Chart — decline curves" />;
-}
-
 export function Q3HseRiskChart() {
   return <Slot name="Q3HseRiskChart" kind="Chart — HSE risk drivers" />;
-}
-
-export function Q4DecommissionTable() {
-  return <Slot name="Q4DecommissionTable" kind="Table — decommission / sell screen" />;
 }
 
 export function Q5InvestmentTable() {

@@ -38,6 +38,7 @@ export const palette = {
   vizKeep: '#004C97', // invest / keep
   vizSell: '#B45309', // amber — sell / divest
   vizDecommission: '#9A3412', // muted rust-red — decommission / plug
+  vizSeries2: '#0F8A5F', // second categorical series (teal) — validated vs. vizKeep
 };
 
 export const typography = {
@@ -103,6 +104,7 @@ export const themeCssVars = {
   '--est-viz-keep': palette.vizKeep,
   '--est-viz-sell': palette.vizSell,
   '--est-viz-decommission': palette.vizDecommission,
+  '--est-viz-series-2': palette.vizSeries2,
   '--est-font-sans': typography.sans,
   '--est-font-serif': typography.serif,
   '--est-font-mono': typography.mono,

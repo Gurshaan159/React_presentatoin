@@ -1,17 +1,39 @@
+import json
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
+try:
+    import matplotlib.pyplot as plt
+    HAVE_PLT = True
+except ImportError:  # plotting is optional; the JSON export is what the app uses
+    HAVE_PLT = False
+
 # ------------------------------------------------------------
-# LOAD DATA
+# LOAD DATA  (raw, unfiltered files — not the cleaned/ folder)
 # ------------------------------------------------------------
-production = pd.read_csv(r'C:\Users\User\Desktop\Estacado Acquisition\Estacado Acquisition\production.csv')
-site_map = pd.read_csv(r'C:\Users\User\Desktop\Estacado Acquisition\Estacado Acquisition\well_site_map.csv')
+DATA_DIR = Path(__file__).resolve().parents[1]          # .../src/Data
+OUT_PATH = DATA_DIR / 'q1_decline_forecast.json'
+
+production = pd.read_csv(DATA_DIR / 'production.csv')
+site_map = pd.read_csv(DATA_DIR / 'well_site_map.csv')
 
 production.columns = production.columns.str.strip()
 site_map.columns = site_map.columns.str.strip()
 site_map['Site Code'] = site_map['Site Code'].str.upper()
+
+
+def canonical_well_id(x):
+    """W17 / 17 / w0017 / 'W0017 ' -> 'W0017'. Leaves unparseable values as-is."""
+    digits = ''.join(ch for ch in str(x) if ch.isdigit())
+    return f'W{int(digits):04d}' if digits else str(x).strip()
+
+
+production['Well ID'] = production['Well ID'].map(canonical_well_id)
+site_map['Well ID'] = site_map['Well ID'].map(canonical_well_id)
+site_map = site_map.drop_duplicates(subset='Well ID')
 
 merged = pd.merge(production, site_map, on='Well ID', how='left')
 
@@ -305,21 +327,81 @@ forecast_all = pd.concat(forecast_list, ignore_index=True)
 
 
 # ------------------------------------------------------------
-# PLOT CURVES
+# EXPORT JSON FOR <Q1DeclineChart />
 # ------------------------------------------------------------
-plt.figure(figsize=(12,7))
+# Monthly-averaged history keeps the payload small; the forecast is already
+# monthly. Rates are BOE/day.
+site_lookup = {}
+if 'Site Code' in top_prod_full.columns:
+    site_lookup = (
+        top_prod_full.dropna(subset=['Site Code'])
+        .groupby('Well ID')['Site Code']
+        .agg(lambda s: s.mode().iat[0] if not s.mode().empty else None)
+        .to_dict()
+    )
 
+wells_out = []
 for wid in top_ids:
-    df_hist = top_prod_full[top_prod_full['Well ID'] == wid].sort_values('Datetime')
-    df_fore = forecast_all[forecast_all['Well ID'] == wid]
+    hist = (
+        top_prod_full[top_prod_full['Well ID'] == wid]
+        .set_index('Datetime')['BOE']
+        .resample('MS').mean()
+        .dropna()
+    )
+    fore = forecast_all[forecast_all['Well ID'] == wid].sort_values('Date')
 
-    plt.scatter(df_hist['Datetime'], df_hist['BOE'], s=20, alpha=0.5, label=f"{wid} Historical")
-    plt.plot(df_fore['Date'], df_fore['Rate_BOE_per_day'], linewidth=2, label=f"{wid} Forecast")
+    t0_date, qi, Di, b = models[wid]
+    q0 = float(hyperbolic_arps(0.0, qi, Di, b))
+    q5 = float(hyperbolic_arps(5.0, qi, Di, b))
+    q1yr = float(hyperbolic_arps(1.0, qi, Di, b))
 
-plt.title("Hyperbolic Decline Curves — Top 5 Wells (Daily Data, Last 6 Months Ranking)")
-plt.xlabel("Date")
-plt.ylabel("BOE/day")
-plt.grid(True)
-plt.legend()
-plt.tight_layout()
-plt.show()
+    wells_out.append({
+        'wellId': wid,
+        'site': site_lookup.get(wid),
+        'fit': {'qi': float(qi), 'Di': float(Di), 'b': float(b),
+                'startDate': pd.Timestamp(t0_date).date().isoformat()},
+        'currentRateBoePerDay': round(float(fore['Rate_BOE_per_day'].iloc[0]), 1),
+        'rateIn5yrBoePerDay': round(q5, 1),
+        'firstYearEffectiveDeclinePct': round((1 - q1yr / q0) * 100, 1) if q0 else None,
+        'forecast5yrCumBoe': round(float(fore['Volume_BOE'].sum()), 0),
+        'history': [
+            {'date': d.date().isoformat(), 'rate': round(float(v), 1)}
+            for d, v in hist.items()
+        ],
+        'forecast': [
+            {'date': pd.Timestamp(d).date().isoformat(), 'rate': round(float(r), 1)}
+            for d, r in zip(fore['Date'], fore['Rate_BOE_per_day'])
+        ],
+    })
+
+payload = {
+    'generatedBy': 'scripts/analyze.py',
+    'metric': 'BOE per day',
+    'method': 'Top 5 wells by trailing-6-month BOE; hyperbolic Arps fit from smoothed peak; 5-year monthly forecast.',
+    'rankingWindow': {'start': str(cutoff.date()), 'end': str(today.date())},
+    'wells': wells_out,
+}
+OUT_PATH.write_text(json.dumps(payload, indent=2))
+print(f"\nWrote {OUT_PATH}  ({len(wells_out)} wells)")
+
+
+# ------------------------------------------------------------
+# PLOT CURVES  (optional — needs matplotlib)
+# ------------------------------------------------------------
+if HAVE_PLT:
+    plt.figure(figsize=(12, 7))
+
+    for wid in top_ids:
+        df_hist = top_prod_full[top_prod_full['Well ID'] == wid].sort_values('Datetime')
+        df_fore = forecast_all[forecast_all['Well ID'] == wid]
+
+        plt.scatter(df_hist['Datetime'], df_hist['BOE'], s=20, alpha=0.5, label=f"{wid} Historical")
+        plt.plot(df_fore['Date'], df_fore['Rate_BOE_per_day'], linewidth=2, label=f"{wid} Forecast")
+
+    plt.title("Hyperbolic Decline Curves — Top 5 Wells (Daily Data, Last 6 Months Ranking)")
+    plt.xlabel("Date")
+    plt.ylabel("BOE/day")
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()

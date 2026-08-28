@@ -6,7 +6,7 @@ import styles from './Report.module.css';
  * Presentational — copy comes from reportContent.js so each `Visual` can be
  * built independently.
  */
-function ArticleSection({ id, number, subhead, leadIn, caption, analysis, Visual }) {
+function ArticleSection({ id, number, subhead, image, leadIn, caption, analysis, Visual }) {
   return (
     <section id={id} className={styles.section} aria-labelledby={`${id}-heading`}>
       <div className={styles.sectionHead}>
@@ -17,6 +17,22 @@ function ArticleSection({ id, number, subhead, leadIn, caption, analysis, Visual
           {subhead}
         </h2>
       </div>
+
+      {image ? (
+        <figure className={styles.sectionImage}>
+          <img
+            className={styles.sectionImageImg}
+            src={image.src}
+            width={image.width}
+            height={image.height}
+            alt={image.alt}
+            loading="lazy"
+          />
+          {image.caption ? (
+            <figcaption className={styles.caption}>{image.caption}</figcaption>
+          ) : null}
+        </figure>
+      ) : null}
 
       <p className={styles.leadIn}>{leadIn}</p>
 

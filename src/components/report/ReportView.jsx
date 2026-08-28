@@ -72,6 +72,7 @@ function ReportView() {
               id={q.id}
               number={q.number}
               subhead={q.subhead}
+              image={q.image}
               leadIn={q.leadIn}
               caption={q.caption}
               analysis={q.analysis}

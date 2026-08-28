@@ -171,6 +171,34 @@
   color: var(--est-gray-border);
 }
 
+/* ---------- Photography ---------- */
+.hero {
+  margin: 1.9rem 0 0;
+}
+.heroImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  object-position: center 42%;
+  border-radius: 2px;
+  background: var(--est-gray-bg);
+}
+
+.sectionImage {
+  margin: 0 0 1.75rem;
+}
+.sectionImageImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 2px;
+  background: var(--est-gray-bg);
+}
+
 /* ---------- Lede ---------- */
 .lede {
   padding: clamp(2rem, 5vw, 3.25rem) 0;

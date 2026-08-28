@@ -1,20 +1,26 @@
-import {
-  Q1DeclineChart,
-  Q3HseRiskChart,
-  Q4DecommissionTable,
-  Q5InvestmentTable,
-} from './vizSlots.jsx';
+import { Q3HseRiskChart, Q5InvestmentTable } from './vizSlots.jsx';
+import Q1DeclineChart from './Q1DeclineChart.jsx';
 import Q2EfficiencyChart from './Q2EfficiencyChart.jsx';
+import Q4DecommissionTable from './Q4DecommissionTable.jsx';
+import heroImage from '../../assets/exploration-and-drilling.jpg';
+import hseImage from '../../assets/hse-rig-incident.jpg';
 
 /** Article header + byline. */
 export const article = {
   kicker: { publisher: 'ConocoPhillips', desk: 'Estacado Analytics' },
   headline: 'Should ConocoPhillips Absorb Estacado Energy’s Wells?',
-  dek: 'We rebuilt the portfolio from a year of production, sensor, safety, and cost data to see which of the 40 wells are worth keeping — and what the deal would take.',
+  dek: 'We rebuilt the portfolio from a year of production, sensor, safety, and cost data to see which of the 40 wells are worth keeping and what the deal would take.',
   byline: {
     authors: 'Team Estacado',
     date: 'August 2026',
     readTime: '8 min read',
+  },
+  hero: {
+    src: heroImage,
+    width: 1600,
+    height: 1066,
+    alt: 'An offshore oil and gas drilling and production platform standing in open water under a clear sky.',
+    caption: 'Drilling and production infrastructure. The Estacado wells are onshore Permian, but the keep, sell, or plug calculus is the same.',
   },
 };
 
@@ -40,10 +46,10 @@ export const questions = [
       'Before anything else, we wanted to know where the production actually comes from, and how fast it fades.',
     Visual: Q1DeclineChart,
     caption:
-      'Daily rate for the five highest-producing wells, with fitted decline projected five years out. Four of the five sit at Wolfcamp North (S05).',
+      'Recorded monthly rate (solid) and the fitted hyperbolic Arps forecast (dashed) for the five highest-producing wells. Four of the five sit at Wolfcamp North (S05); W0028 is at Midland Central (S03).',
     analysis: [
-      'The output is strikingly top-heavy. W0019, W0037, W0020 and W0010 — all at Wolfcamp North — plus W0028 at Midland Central each produce between roughly 950 and 1,075 BOE per day, and together they carry a disproportionate share of total volume.',
-      'The decline math is reassuring on its own terms: about 12 to 13 percent a year for the Wolfcamp North wells, which leaves them holding more than half their current rate in five years. The risk is not the curve, it is the address. Four of the five best wells share one site, so a single outage or safety stand-down at S05 takes most of the portfolio’s cash flow with it.',
+      'The output is strikingly top-heavy. W0019, W0037, W0020 and W0010 — all at Wolfcamp North — plus W0028 at Midland Central are currently producing between roughly 930 and 1,060 BOE per day, and together they carry a disproportionate share of total volume.',
+      'The decline is orderly: the fit puts first-year effective decline near 13 percent for the four Wolfcamp North wells and about 15 percent for W0028, which leaves the group holding somewhere between half and two-thirds of its current rate in five years. The risk is not the curve, it is the address. Four of the five best wells share one site, so a single outage or safety stand-down at S05 takes most of the portfolio’s cash flow with it.',
     ],
   },
   {
@@ -68,6 +74,13 @@ export const questions = [
     railLabel: 'The safety record',
     // FINDING: HSE severity concentrated in the same S05 wells + W0001; correlates with high pressure, vibration, low sensor reliability.
     subhead: 'The safety problem and the production are the same wells',
+    image: {
+      src: hseImage,
+      width: 1536,
+      height: 1024,
+      alt: 'An offshore drilling rig ablaze and listing into the sea, with a large plume of black smoke.',
+      caption: 'A rig fire and partial collapse. Catastrophic HSE events are rare, but they are the tail risk the site screen exists to catch before it gets there.',
+    },
     leadIn:
       'We pulled every recorded incident and asked which sites carry the risk — and which operational signals move with it.',
     Visual: Q3HseRiskChart,
@@ -82,16 +95,17 @@ export const questions = [
     id: 'q4',
     number: '04',
     railLabel: 'What to shed',
-    // FINDING: W0001 plug outright; 4 S05 wells plug-vs-remediate; W0020/W0015/W0033/W0027 divest.
-    subhead: 'One well is finished; four more should change hands',
+    // FINDING (scripts/finance.py): 50/50 blend of 5yr-forecast BOE + mean operating cost,
+    // min-max normalized. Bottom 5 = W0040, W0035, W0018, W0009, W0030.
+    subhead: 'Five wells that are neither cheap enough nor productive enough to keep',
     leadIn:
-      'Some wells cost more to run than they will ever return. We screened for the ones ConocoPhillips should not keep.',
+      'This screen sets safety and margin aside and asks two things of each well: how much it will produce over the next five years, and what it costs to run. The wells that score worst on the blend are the divestment shortlist.',
     Visual: Q4DecommissionTable,
     caption:
-      'Decommission and divestment screen: recommendation against margin, water cut, lifting cost, and incident severity.',
+      'Each well’s five-year forecast BOE and mean monthly operating cost, normalized 0–1 and blended 50/50. The five lowest scores are flagged; 30 of the 40 wells are scored, the rest being shut-in with no operating history.',
     analysis: [
-      'One well is unambiguously done. W0001 runs a negative 96 percent margin at 97 percent water cut and a $142-per-barrel lifting cost, and no workover changes that — it should be plugged.',
-      'The four high-rate Wolfcamp North wells are the harder call: genuinely profitable at around 67 percent margins, but the screen holds them for a plug-versus-remediate decision rather than business as usual. A further four — W0020, W0015, W0033 and W0027 — screen as divestment candidates, worth more to a smaller operator than the remediation and compliance liability they carry inside a major.',
+      'The screen flags W0040, W0009 and W0018 for thin forecast volumes — each under 360,000 BOE over five years — and W0035 and W0030 for the opposite reason: they still produce respectably, roughly 650,000 to 720,000 BOE, but their operating costs run $18,500 to $20,000 a month, near the top of the field.',
+      'What it does not flag is just as telling. The portfolio’s biggest producers — W0037, W0020, W0019 — score only mid-pack because they are also its most expensive wells to operate, and the cheapest wells to run, W0001 and W0024, are nearly dead on volume. A production-and-cost screen keeps W0001 because it is so cheap; a margin screen would plug it. The wells worth shedding here are the ones caught in between: real cost, unremarkable output, and no case for fresh capital.',
     ],
   },
   {
@@ -123,9 +137,9 @@ export const verdict = {
     },
     {
       text: 'The program that makes it work is specific. ',
-      callout: 'Plug W0001, and move W0020, W0015, W0033 and W0027 to divestment',
+      callout: 'Sell or plug the five wells the screen flags — W0040, W0035, W0018, W0009 and W0030',
       after:
-        ' — that clears the negative-margin tail and the highest-liability barrels. Fund the drilling program at Midland Central and the lift upgrades at Estacado Ridge and Alamo Sunset to raise portfolio output at the lowest available cost. And treat the Wolfcamp North integrity and instrumentation upgrade as a condition of closing, not a later phase.',
+        ' — wells that cost real money to run without the output or the upside to justify it. Fund the drilling program at Midland Central and the lift upgrades at Estacado Ridge and Alamo Sunset to raise portfolio output at the lowest available cost. And treat the Wolfcamp North integrity and instrumentation upgrade as a condition of closing, not a later phase.',
     },
     {
       text: 'Done in that order, the acquisition raises production per dollar of operating cost, pulls the portfolio’s compliance risk down by fixing it where it actually sits, and extends the productive life of the wells that matter. Absorbing Estacado is the right call — provided ConocoPhillips buys the problem at S05 with its eyes open.',

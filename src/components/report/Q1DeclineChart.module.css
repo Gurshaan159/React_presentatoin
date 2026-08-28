@@ -1,0 +1,197 @@
+.chart {
+  font-family: var(--est-font-sans);
+  color: var(--est-charcoal);
+}
+
+.title {
+  margin: 0 0 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.unit {
+  display: block;
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--est-mute);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.78rem;
+  color: var(--est-slate);
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.swatch {
+  width: 14px;
+  height: 3px;
+  border-radius: 1px;
+}
+.lineSolid,
+.lineDashed {
+  width: 18px;
+  height: 0;
+  border-top: 2px solid var(--est-slate);
+}
+.lineDashed {
+  border-top-style: dashed;
+}
+
+.plotWrap {
+  position: relative;
+}
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--est-gray-border);
+  stroke-width: 1;
+}
+.baseline {
+  stroke: var(--est-charcoal);
+  stroke-width: 1;
+}
+.axisText {
+  fill: var(--est-mute);
+  font-size: 11px;
+  font-family: var(--est-font-mono);
+}
+.divider {
+  stroke: var(--est-slate);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.dividerLabel {
+  fill: var(--est-mute);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.historyLine {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.forecastLine {
+  fill: none;
+  stroke-width: 1.4;
+  stroke-dasharray: 3 3;
+  opacity: 0.75;
+}
+
+.endLabel {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--est-font-mono);
+}
+
+.crosshair {
+  stroke: var(--est-charcoal);
+  stroke-width: 1;
+  stroke-dasharray: 2 2;
+}
+.hoverSurface {
+  fill: transparent;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.tip {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  background: var(--est-charcoal);
+  color: #fff;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 3;
+}
+.tip strong {
+  font-size: 0.74rem;
+  margin-bottom: 2px;
+}
+.tip span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.tip b {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  padding-left: 0.75rem;
+}
+.tipDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.tableWrap {
+  margin-top: 1.25rem;
+  font-size: 0.82rem;
+}
+.tableWrap summary {
+  cursor: pointer;
+  color: var(--est-blue);
+  font-weight: 600;
+}
+.tableScroll {
+  overflow-x: auto;
+  margin-top: 0.75rem;
+}
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 34rem;
+}
+.table th,
+.table td {
+  padding: 0.4rem 0.6rem;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--est-gray-border);
+  font-variant-numeric: tabular-nums;
+}
+.table thead th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--est-mute);
+  border-bottom-color: var(--est-charcoal);
+  font-variant-numeric: normal;
+}
+.table th[scope='row'] {
+  text-align: left;
+  font-weight: 600;
+}
+.table td:first-of-type,
+.table th:first-of-type {
+  text-align: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart * {
+    transition: none !important;
+  }
+}

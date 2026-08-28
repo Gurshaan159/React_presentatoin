@@ -5,7 +5,7 @@ import styles from './Report.module.css';
  * dek, and an understated byline row. Scrolls with the page.
  */
 function ArticleHeader({ article }) {
-  const { kicker, headline, dek, byline } = article;
+  const { kicker, headline, dek, byline, hero } = article;
 
   return (
     <header className={styles.header}>
@@ -28,6 +28,21 @@ function ArticleHeader({ article }) {
         </span>
         <span>{byline.readTime}</span>
       </p>
+
+      {hero ? (
+        <figure className={styles.hero}>
+          <img
+            className={styles.heroImg}
+            src={hero.src}
+            width={hero.width}
+            height={hero.height}
+            alt={hero.alt}
+          />
+          {hero.caption ? (
+            <figcaption className={styles.caption}>{hero.caption}</figcaption>
+          ) : null}
+        </figure>
+      ) : null}
     </header>
   );
 }

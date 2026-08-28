@@ -1,20 +1,27 @@
+import json
+from pathlib import Path
+
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
+try:
+    import matplotlib.pyplot as plt
+    HAVE_PLT = True
+except ImportError:  # plotting is optional; the JSON export is what the app uses
+    HAVE_PLT = False
+
 
 # ============================================================
-# LOAD DATA
+# LOAD DATA  (raw, unfiltered files — not the cleaned/ folder)
 # ============================================================
 
-production = pd.read_csv(
-    r'C:\Users\User\Desktop\Questions1_2\Estacado Acquisition\production.csv'
-)
+DATA_DIR = Path(__file__).resolve().parents[1]          # .../src/Data
+OUT_PATH = DATA_DIR / 'q4_well_economics.json'
 
-finance = pd.read_json(
-    r'C:\Users\User\Desktop\Questions1_2\Estacado Acquisition\financial_estacado.json'
-)
+production = pd.read_csv(DATA_DIR / 'production.csv')
+
+finance = pd.read_json(DATA_DIR / 'financial_estacado.json')
 
 
 # ============================================================
@@ -681,8 +688,63 @@ worst_5 = well_df.nsmallest(5, "Well_Score")
 
 
 # ------------------------------------------------------------
-# PLOT
+# EXPORT JSON FOR <Q4DecommissionTable />
 # ------------------------------------------------------------
+
+worst_ids = set(worst_5["Well ID"])
+best_ids = set(best_5["Well ID"])
+
+
+def _reco(wid):
+    if wid in worst_ids:
+        return "Decommission / sell"
+    if wid in best_ids:
+        return "Invest / keep"
+    return "Keep"
+
+
+ranked = well_df.sort_values("Well_Score").reset_index(drop=True)
+
+rows_out = []
+for _, r in ranked.iterrows():
+    rows_out.append({
+        "wellId": r["Well ID"],
+        "avgOperatingCost": round(float(r["Avg_Operating_Cost"]), 2),
+        "forecast5yrBoe": (
+            None if pd.isna(r["Forecast_5yr_BOE"]) else round(float(r["Forecast_5yr_BOE"]), 0)
+        ),
+        "productionScore": (
+            None if pd.isna(r["Production_Score"]) else round(float(r["Production_Score"]), 4)
+        ),
+        "costScore": (
+            None if pd.isna(r["Cost_Score"]) else round(float(r["Cost_Score"]), 4)
+        ),
+        "wellScore": (
+            None if pd.isna(r["Well_Score"]) else round(float(r["Well_Score"]), 4)
+        ),
+        "recommendation": _reco(r["Well ID"]),
+    })
+
+payload = {
+    "generatedBy": "scripts/finance.py",
+    "method": (
+        "Per-well 5-year hyperbolic-forecast BOE and mean operating cost, each "
+        "min-max normalized (production up = better, cost down = better), combined "
+        "50/50 into Well_Score. Bottom 5 flagged for decommission/sale."
+    ),
+    "wells": rows_out,
+    "decommissionOrSell": [w for w in rows_out if w["recommendation"] == "Decommission / sell"],
+}
+OUT_PATH.write_text(json.dumps(payload, indent=2))
+print(f"\nWrote {OUT_PATH}  ({len(rows_out)} wells)")
+
+
+# ------------------------------------------------------------
+# PLOT  (optional — needs matplotlib)
+# ------------------------------------------------------------
+
+if not HAVE_PLT:
+    raise SystemExit(0)
 
 plt.figure(figsize=(12, 8))
 
