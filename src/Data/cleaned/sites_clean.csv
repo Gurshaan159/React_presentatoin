@@ -1,0 +1,9 @@
+site_code,location_name,latitude,longitude,contact,contact_number,contact_email,business_unit
+S01,Estacado Ridge,30.799264,-100.918286,Manager S01,+1-432-854-2824,s01@estacadoenergy.com,Permian West
+S02,Big Spring Complex,31.37119,-101.76322,Manager S02,+1-432-225-5506,s02@estacadoenergy.com,Permian West
+S03,Midland Central,30.44963,-102.825613,Manager S03,+1-432-450-4657,s03@estacadoenergy.com,Permian Central
+S04,Odessa Yard,30.292934,-101.121177,Manager S04,+1-432-342-2679,s04@estacadoenergy.com,Permian Central
+S05,Wolfcamp North,31.161784,-101.500626,Manager S05,+1-432-892-9935,s05@estacadoenergy.com,Permian North
+S06,Delaware Flats,30.232935,-100.872216,Manager S06,+1-432-289-7912,s06@estacadoenergy.com,Permian North
+S07,Andrews Legacy,31.531908,-102.690386,Manager S07,+1-432-232-1488,s07@estacadoenergy.com,Permian East
+S08,Alamo Sunset,30.49092,-102.759829,Manager S08,+1-432-295-4582,s08@estacadoenergy.com,Permian East

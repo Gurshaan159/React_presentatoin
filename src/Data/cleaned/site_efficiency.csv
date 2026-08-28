@@ -1,0 +1,9 @@
+rank,site_code,location_name,business_unit,wells_total,n_active,shut_in_wells,pct_active,total_boe,avg_boe_per_well,boe_per_active_well,efficiency_kboe_per_active_well,iot_reliability,iot_reliability_unweighted,pe_s,oil_share_pct,gas_share_pct,water_cut_pct,top_well_boe_share_pct,avg_uptime_pct
+1,S05,Wolfcamp North,Permian North,5,5,0,100.0,1922457.4,384491.5,384491.5,384.491,0.7683,0.7696,295.398,54.5,45.5,36.0,21.4,95.89
+2,S03,Midland Central,Permian Central,5,5,0,100.0,1581123.3,316224.7,316224.7,316.225,0.8954,0.8945,283.151,53.6,46.4,31.0,23.2,95.89
+3,S01,Estacado Ridge,Permian West,5,5,0,100.0,930122.0,186024.4,186024.4,186.024,0.9057,0.9061,168.482,52.2,47.8,52.9,22.9,95.86
+4,S08,Alamo Sunset,Permian East,5,5,0,100.0,923800.5,184760.1,184760.1,184.76,0.8927,0.8925,164.942,53.8,46.2,47.4,21.8,95.83
+5,S07,Andrews Legacy,Permian East,5,4,1,80.0,473194.1,94638.8,118298.5,118.299,0.8882,0.8884,105.073,54.5,45.5,70.0,26.7,95.81
+6,S02,Big Spring Complex,Permian West,5,3,2,60.0,250913.8,50182.8,83637.9,83.638,0.8929,0.8929,74.682,54.5,45.5,76.1,35.5,95.78
+7,S06,Delaware Flats,Permian North,5,2,3,40.0,78103.1,15620.6,39051.5,39.052,0.8954,0.8954,34.967,54.7,45.3,93.7,51.2,96.07
+8,S04,Odessa Yard,Permian Central,5,1,4,20.0,21491.9,4298.4,21491.9,21.492,0.8999,0.8999,19.34,57.0,43.0,95.8,100.0,95.81

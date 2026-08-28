@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Large local datasets — exceeds GitHub's 100 MB file limit; regenerate from
+# the CSVs / scripts in src/Data or fetch from the shared drive.
+src/Data/iot_sensors.db
+*.db
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
